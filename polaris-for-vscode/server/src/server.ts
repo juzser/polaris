@@ -9,10 +9,9 @@ import {
   TextDocumentSyncKind,
   InitializeResult,
 } from 'vscode-languageserver/node';
-
 import {TextDocument} from 'vscode-languageserver-textdocument';
 
-import {allTokens, groupedTokens} from './data/allTokens';
+import {groupedTokens} from './tmp-tokens/allTokens';
 
 type GroupedTokens = typeof groupedTokens;
 
@@ -29,7 +28,7 @@ type TokenGroupPatterns = {
   [T in GroupedTokensKey]: RegExp;
 };
 
-let tokenGroupPatterns: TokenGroupPatterns = {
+const tokenGroupPatterns: TokenGroupPatterns = {
   color:
     /color|background|shadow|border|column-rule|filter|opacity|outline|text-decoration/,
   spacing: /margin|padding|gap|top|left|right|bottom/,
@@ -39,6 +38,14 @@ let tokenGroupPatterns: TokenGroupPatterns = {
   depth: /shadow/,
   motion: /animation/,
 };
+
+type GroupedCompletionItem = {
+  [T in GroupedTokensKey]?: CompletionItem[];
+};
+
+const groupedCompletionItems: GroupedCompletionItem = {};
+
+let allCompletionItems: CompletionItem[] = [];
 
 connection.onInitialize((params: InitializeParams) => {
   const capabilities = params.capabilities;
@@ -53,6 +60,30 @@ connection.onInitialize((params: InitializeParams) => {
     },
   };
 
+  // initialize grouped completionItems
+  for (const tokenGroup in groupedTokens) {
+    if (Object.prototype.hasOwnProperty.call(groupedTokens, tokenGroup)) {
+      const category = tokenGroup as keyof typeof tokenGroupPatterns;
+      const tokensArray = groupedTokens[category];
+
+      const completionItems = tokensArray.map((token): CompletionItem => {
+        return {
+          label: token.label,
+          insertText: token.insertText,
+          detail: token.value,
+          filterText: `--p-${token.label}`,
+          kind:
+            category === 'color'
+              ? CompletionItemKind.Color
+              : CompletionItemKind.Variable,
+        };
+      });
+
+      groupedCompletionItems[category] = completionItems;
+
+      allCompletionItems = allCompletionItems.concat(completionItems);
+    }
+  }
   return result;
 });
 
@@ -60,7 +91,7 @@ connection.onInitialize((params: InitializeParams) => {
 connection.onCompletion(
   (textDocumentPosition: TextDocumentPositionParams): CompletionItem[] => {
     const doc = documents.get(textDocumentPosition.textDocument.uri);
-    let completionItems: CompletionItem[] = [];
+    let matchedCompletionItems: CompletionItem[] = [];
 
     // if the doc can't be found, return nothing
     if (!doc) {
@@ -72,35 +103,30 @@ connection.onCompletion(
       end: {line: textDocumentPosition.position.line, character: 1000},
     });
 
-    // iterate through token groups and find matches for css attributes
     for (const tokenGroup in tokenGroupPatterns) {
-      const category = tokenGroup as keyof typeof tokenGroupPatterns;
+      if (
+        Object.prototype.hasOwnProperty.call(tokenGroupPatterns, tokenGroup)
+      ) {
+        const category = tokenGroup as keyof typeof tokenGroupPatterns;
 
-      if (tokenGroupPatterns[category].test(currentText)) {
-        completionItems = completionItems.concat(
-          groupedTokens[category].map((token: string): CompletionItem => {
-            return {
-              label: `var(${token})`,
-              kind: CompletionItemKind.Variable,
-            };
-          })
-        );
+        if (tokenGroupPatterns[category].test(currentText)) {
+          const currentCompletionItems = groupedCompletionItems[category];
+          if (currentCompletionItems) {
+            matchedCompletionItems = matchedCompletionItems.concat(
+              currentCompletionItems,
+            );
+          }
+        }
       }
     }
 
-    // if we had matches, return the completion items
-    if (completionItems.length > 0) {
-      return completionItems;
+    // if there were matches above, send them
+    if (matchedCompletionItems.length > 0) {
+      return matchedCompletionItems;
     }
 
-    // if no mateches above, iterate through all tokens and create completion
-    // items array
-    return allTokens.map((token: string): CompletionItem => {
-      return {
-        label: `var(${token})`,
-        kind: CompletionItemKind.Variable,
-      };
-    });
+    // if there were no matches, send everything
+    return allCompletionItems;
   },
 );
 
