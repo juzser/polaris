@@ -1,13 +1,15 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import React from "react";
+import { tokens } from "@shopify/polaris-tokens";
 import Page from "../../components/Page";
-import zIndex from "../../../../polaris-react/src/tokens/token-groups/z-index.json";
 import Longform from "../../components/Longform";
 import Token from "../../components/Token";
 import { navItems } from "../../data/tokensNav";
 import Nav from "../../components/Nav";
 import { getTitleForTitleTag } from "../../utils/various";
+
+const { zIndex } = tokens;
 
 const Components: NextPage = () => {
   return (
@@ -27,16 +29,15 @@ const Components: NextPage = () => {
         </p>
 
         {Object.entries(zIndex).map(([name]) => {
-          const typedName = name as keyof typeof zIndex;
-          return <ZIndexPreview key={name} name={typedName} />;
+          return <ZIndexPreview key={name} name={name} />;
         })}
       </Longform>
     </Page>
   );
 };
 
-function ZIndexPreview({ name }: { name: keyof typeof zIndex }) {
-  const value = zIndex[name];
+function ZIndexPreview({ name }: { name: string }) {
+  const { value } = zIndex[name];
   const size = 50;
 
   return (

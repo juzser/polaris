@@ -33,17 +33,30 @@ import {
 } from './components';
 import styles from './Listbox.scss';
 
+export enum AutoSelection {
+  /** Default active option is the first selected option. If no options are selected, defaults to first interactive option. */
+  FirstSelected = 'FIRST_SELECTED',
+  /** Default active option is always the first interactive option. */
+  First = 'FIRST',
+}
+
 export interface ListboxProps {
   /** Inner content of the listbox */
   children: ReactNode;
+  /** Indicates the default active option in the list. Patterns that support option creation should default the active option to the first option.
+   * @default AutoSelection.FirstSelected
+   */
+  autoSelection?: AutoSelection;
   /** Explicitly enable keyboard control */
   enableKeyboardControl?: boolean;
   /** Visually hidden text for screen readers */
   accessibilityLabel?: string;
+  /** Provide a custom ID for the list element */
+  customListId?: string;
   /** Callback fired when an option is selected */
   onSelect?(value: string): void;
   /** Callback fired when an option becomes active */
-  onActiveOptionChange?(value: string): void;
+  onActiveOptionChange?(value: string, domId: string): void;
 }
 
 export type ArrowKeys = 'up' | 'down';
@@ -55,8 +68,10 @@ const OPTION_FOCUS_ATTRIBUTE = 'data-focused';
 
 export function Listbox({
   children,
+  autoSelection = AutoSelection.FirstSelected,
   enableKeyboardControl,
   accessibilityLabel,
+  customListId,
   onSelect,
   onActiveOptionChange,
 }: ListboxProps) {
@@ -71,7 +86,8 @@ export function Listbox({
     setFalse: disableKeyboardEvents,
   } = useToggle(Boolean(enableKeyboardControl));
 
-  const listId = useUniqueId('Listbox');
+  const uniqueId = useUniqueId('Listbox');
+  const listId = customListId || uniqueId;
 
   const scrollableRef = useRef<HTMLElement | null>(null);
   const listboxRef = useRef<HTMLUListElement>(null);
@@ -118,7 +134,10 @@ export function Listbox({
         const isInteractable = option.getAttribute('aria-disabled') !== 'true';
         let isFirstNavigableOption;
 
-        if (hasSelectedOptions) {
+        if (
+          hasSelectedOptions &&
+          autoSelection === AutoSelection.FirstSelected
+        ) {
           const isSelected = option.getAttribute('aria-selected') === 'true';
           isFirstNavigableOption = isSelected && isInteractable;
         } else {
@@ -134,7 +153,7 @@ export function Listbox({
 
       return {element, index: elementIndex};
     },
-    [],
+    [autoSelection],
   );
 
   const handleScrollIntoView = useCallback((option: NavigableOption) => {
@@ -163,7 +182,7 @@ export function Listbox({
       handleScrollIntoViewDebounced(nextOption);
       setActiveOption(nextOption);
       setActiveOptionId?.(nextOption.domId);
-      onActiveOptionChange?.(nextOption.value);
+      onActiveOptionChange?.(nextOption.value, nextOption.domId);
     },
     [
       activeOption,

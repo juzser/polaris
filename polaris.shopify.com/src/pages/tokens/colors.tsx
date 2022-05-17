@@ -1,9 +1,8 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import React from "react";
+import { tokens } from "@shopify/polaris-tokens";
 import Page from "../../components/Page";
-import colors from "../../../../polaris-react/src/tokens/token-groups/color.light.json";
-import colorDescriptions from "../../data/colorDescriptions.json";
 import Longform from "../../components/Longform";
 import { navItems } from "../../data/tokensNav";
 import Token from "../../components/Token";
@@ -11,8 +10,12 @@ import Nav from "../../components/Nav";
 import { getTitleForTitleTag } from "../../utils/various";
 import Link from "next/link";
 
+const {
+  colorSchemes: { light: colors },
+} = tokens;
+
 const Components: NextPage = () => {
-  const colorNames = Object.keys(colors) as (keyof typeof colors)[];
+  const colorNames = Object.keys(colors);
   return (
     <Page renderNav={() => <Nav navItems={navItems} />}>
       <Head>
@@ -24,7 +27,7 @@ const Components: NextPage = () => {
         <p></p>
         <p>
           Learn more about{" "}
-          <Link href="/docs/design/colors">our color system</Link>.
+          <Link href="/guidelines/design/colors">our color system</Link>.
         </p>
         {colorNames.map((colorName) => (
           <ColorPreview key={colorName} name={colorName} />
@@ -34,7 +37,7 @@ const Components: NextPage = () => {
   );
 };
 
-function ColorPreview({ name }: { name: keyof typeof colors }) {
+function ColorPreview({ name }: { name: string }) {
   const isStateful =
     name.includes("hovered") ||
     name.includes("pressed") ||
@@ -45,9 +48,7 @@ function ColorPreview({ name }: { name: keyof typeof colors }) {
   const smallSize = 32;
   const size = isStateful ? smallSize : fullSize;
 
-  const value = colors[name];
-  const descriptions = colorDescriptions as { [key: string]: string };
-  let description: string = descriptions[name] || "";
+  const { description, value } = colors[name];
 
   return (
     <Token

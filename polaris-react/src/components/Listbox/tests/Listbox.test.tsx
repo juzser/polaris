@@ -10,7 +10,7 @@ import {Key} from '../../../types';
 import {KeypressListener} from '../../KeypressListener';
 import {Scrollable} from '../../Scrollable';
 import {VisuallyHidden} from '../../VisuallyHidden';
-import {Listbox} from '../Listbox';
+import {Listbox, AutoSelection} from '../Listbox';
 import {ListboxContext} from '../../../utilities/listbox';
 
 const MockComponent = ({
@@ -164,7 +164,17 @@ describe('<Listbox>', () => {
       });
     });
 
-    it('renders with id', () => {
+    it('renders with passed id', () => {
+      const listbox = mountWithApp(
+        <Listbox customListId="some-custom-id">Child</Listbox>,
+      );
+
+      expect(listbox).toContainReactComponent('ul', {
+        id: 'some-custom-id',
+      });
+    });
+
+    it('renders with fallback id when none is passed', () => {
       const listbox = mountWithApp(<Listbox>Child</Listbox>);
 
       expect(listbox).toContainReactComponent('ul', {
@@ -493,6 +503,27 @@ describe('<Listbox>', () => {
         expect(options[2].domNode?.getAttribute('data-focused')).toBe('true');
       });
 
+      it('passes value and domId to onActiveOptionChange', async () => {
+        const spy = jest.fn();
+        const wrapper = mountWithApp(
+          <Listbox enableKeyboardControl onActiveOptionChange={spy}>
+            <Listbox.Option value="valueOne" />
+            <Listbox.Option value="valueTwo" />
+            <Listbox.Option value="valueThree" />
+          </Listbox>,
+        );
+
+        const options = wrapper.findAll(Listbox.Option);
+
+        expect(spy).toHaveBeenCalledWith('valueOne', options[0].domNode?.id);
+
+        await wrapper.act(async () => {
+          await Promise.resolve(triggerDown(wrapper));
+        });
+
+        expect(spy).toHaveBeenCalledWith('valueTwo', options[1].domNode?.id);
+      });
+
       it('does not focus any element when all elements are disabled', async () => {
         const setActiveOptionIdSpy = jest.fn();
         const wrapper = mountWithComboboxListContext(
@@ -625,6 +656,27 @@ describe('<Listbox>', () => {
 
         expect(options[1].domNode?.getAttribute('data-focused')).toBeNull();
       });
+
+      it('passes value and domId to onActiveOptionChange', async () => {
+        const spy = jest.fn();
+        const wrapper = mountWithApp(
+          <Listbox enableKeyboardControl onActiveOptionChange={spy}>
+            <Listbox.Option value="valueOne" />
+            <Listbox.Option value="valueTwo" />
+            <Listbox.Option value="valueThree" />
+          </Listbox>,
+        );
+
+        const options = wrapper.findAll(Listbox.Option);
+
+        expect(spy).toHaveBeenCalledWith('valueOne', options[0].domNode?.id);
+
+        await wrapper.act(async () => {
+          await Promise.resolve(triggerUp(wrapper));
+        });
+
+        expect(spy).toHaveBeenCalledWith('valueThree', options[2].domNode?.id);
+      });
     });
 
     describe('enter', () => {
@@ -703,6 +755,104 @@ describe('<Listbox>', () => {
       listbox.setProps({enableKeyboardControl: true});
 
       expect(listbox).toContainReactComponent(KeypressListener);
+    });
+  });
+
+  describe('auto-selection', () => {
+    describe('when list has selected options', () => {
+      it('sets the initial active option to the first selected option by default', () => {
+        const selectedListbox = (
+          <Listbox>
+            <Listbox.Option value="one" selected={false}>
+              one
+            </Listbox.Option>
+            <Listbox.Option value="two" selected={false}>
+              two
+            </Listbox.Option>
+            <Listbox.Option value="three" selected>
+              three
+            </Listbox.Option>
+          </Listbox>
+        );
+        const wrapper = mountWithApp(selectedListbox);
+        const listbox = wrapper.find('ul', {role: 'listbox'})!;
+        const options = wrapper.findAll('li', {role: 'option'});
+
+        expect(listbox.domNode?.getAttribute('aria-activedescendant')).toBe(
+          options[2].domNode?.id,
+        );
+      });
+
+      it('sets the initial active option to the first option when autoSelection is AutoSelection.First', () => {
+        const selectedListbox = (
+          <Listbox autoSelection={AutoSelection.First}>
+            <Listbox.Option value="one" selected={false}>
+              one
+            </Listbox.Option>
+            <Listbox.Option value="two" selected={false}>
+              two
+            </Listbox.Option>
+            <Listbox.Option value="three" selected>
+              three
+            </Listbox.Option>
+          </Listbox>
+        );
+        const wrapper = mountWithApp(selectedListbox);
+        const listbox = wrapper.find('ul', {role: 'listbox'})!;
+        const options = wrapper.findAll('li', {role: 'option'});
+
+        expect(listbox.domNode?.getAttribute('aria-activedescendant')).toBe(
+          options[0].domNode?.id,
+        );
+      });
+    });
+
+    describe('when list has no selected options', () => {
+      it('sets the initial active option to the first option by default', () => {
+        const unselectedListbox = (
+          <Listbox>
+            <Listbox.Option value="one" selected={false}>
+              one
+            </Listbox.Option>
+            <Listbox.Option value="two" selected={false}>
+              two
+            </Listbox.Option>
+            <Listbox.Option value="three" selected={false}>
+              three
+            </Listbox.Option>
+          </Listbox>
+        );
+        const wrapper = mountWithApp(unselectedListbox);
+        const listbox = wrapper.find('ul', {role: 'listbox'})!;
+        const options = wrapper.findAll('li', {role: 'option'});
+
+        expect(listbox.domNode?.getAttribute('aria-activedescendant')).toBe(
+          options[0].domNode?.id,
+        );
+      });
+
+      it('sets the initial active option to the first option when autoSelection is AutoSelection.First', () => {
+        const unselectedListbox = (
+          <Listbox autoSelection={AutoSelection.First}>
+            <Listbox.Option value="one" selected={false}>
+              one
+            </Listbox.Option>
+            <Listbox.Option value="two" selected={false}>
+              two
+            </Listbox.Option>
+            <Listbox.Option value="three" selected={false}>
+              three
+            </Listbox.Option>
+          </Listbox>
+        );
+        const wrapper = mountWithApp(unselectedListbox);
+        const listbox = wrapper.find('ul', {role: 'listbox'})!;
+        const options = wrapper.findAll('li', {role: 'option'});
+
+        expect(listbox.domNode?.getAttribute('aria-activedescendant')).toBe(
+          options[0].domNode?.id,
+        );
+      });
     });
   });
 });

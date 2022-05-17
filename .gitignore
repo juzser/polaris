@@ -6,8 +6,9 @@
 .loom
 .next
 .shadowenv.d
+.turbo
 dist
 node_modules
-tmp-tokens
 /polaris-react/build
 /polaris-react/build-internal
+/polaris-react/src/styles/_media-queries.scss

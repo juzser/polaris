@@ -1,16 +1,21 @@
 import { SearchResult } from "../types";
-import colorLight from "../../../polaris-react/src/tokens/token-groups/color.light.json";
-import depth from "../../../polaris-react/src/tokens/token-groups/depth.json";
-import motion from "../../../polaris-react/src/tokens/token-groups/motion.json";
-import shape from "../../../polaris-react/src/tokens/token-groups/shape.json";
-import spacing from "../../../polaris-react/src/tokens/token-groups/spacing.json";
-import typography from "../../../polaris-react/src/tokens/token-groups/typography.json";
-import zIndex from "../../../polaris-react/src/tokens/token-groups/z-index.json";
-import components from "../data/components.json";
-import icons from "../data/icons.json";
-import guidelines from "../data/guidelines.json";
+import { createVar, tokens } from "@shopify/polaris-tokens";
 import Fuse from "fuse.js";
 import { slugify, stripMarkdownLinks } from "./various";
+import metadata from '@shopify/polaris-icons/metadata';
+
+import components from "../data/components.json";
+import guidelines from "../data/guidelines.json";
+
+const {
+  colorSchemes: { light: colorLight },
+  depth,
+  motion,
+  shape,
+  spacing,
+  typography,
+  zIndex,
+} = tokens;
 
 let results: SearchResult = [];
 
@@ -35,7 +40,7 @@ Object.entries(colorLight).forEach(([tokenName, tokenValue]) => {
     url: `/tokens/colors#${tokenName}`,
     keywords: [],
     meta: {
-      colorToken: { value: tokenValue },
+      colorToken: { value: tokenValue.value },
     },
   });
 });
@@ -46,7 +51,7 @@ Object.entries(otherTokenGroups).forEach(([groupSlug, tokenGroup]) => {
   Object.entries(tokenGroup).forEach(([tokenName, tokenValue]) => {
     results.push({
       category: "Tokens",
-      title: `--p-${tokenName}`,
+      title: createVar(tokenName),
       excerpt: "",
       url: `/tokens/${slugify(groupSlug)}#${tokenName}`,
       keywords: [],
@@ -56,13 +61,13 @@ Object.entries(otherTokenGroups).forEach(([groupSlug, tokenGroup]) => {
 });
 
 // Add icons
-icons.forEach(({ name, set, description, keywords, fileName }) => {
+Object.keys(metadata).forEach(fileName => {
   results.push({
     category: "Icons",
-    title: `${name} (${set})`,
-    excerpt: description,
-    url: `/icons#${name}-${set}`,
-    keywords,
+    title: `${metadata[fileName].name} (${metadata[fileName].set})`,
+    excerpt: metadata[fileName].description,
+    url: `/icons#${fileName}`,
+    keywords: metadata[fileName].keywords,
     meta: {
       icon: { fileName },
     },
@@ -79,7 +84,7 @@ guidelines.forEach(({ frontMatter: { name, keywords, slug }, intro }) => {
     if (allowedSections.includes(sectionSlug)) {
       const title = parts[parts.length - 1];
 
-      const url = `/docs/${sectionSlug}/${slug}`;
+      const url = `/guidelines/${sectionSlug}/${slug}`;
 
       results.push({
         category: "Guidelines",

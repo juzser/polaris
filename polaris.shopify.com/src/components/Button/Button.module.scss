@@ -1,11 +1,14 @@
 .Button {
+  display: inline-block;
   appearance: none;
   background: #fbfbfb;
-  padding: 0.3em 0.5em 0.35em;
+  padding: 0.2rem 0.5rem;
   border: none;
   font-weight: var(--font-weight-400);
   border-radius: var(--border-radius-200);
   cursor: pointer;
+  color: inherit;
+  user-select: none;
 
   &:hover {
     background: #ededed;
@@ -16,14 +19,15 @@
   }
 
   &.pill {
-    border-radius: 100px;
-    padding-left: 0.75em;
-    padding-right: 0.75em;
+    border-radius: var(--border-radius-round);
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
   }
 
   &[aria-pressed="true"],
-  &[aria-selected="true"] {
-    background: #008060;
+  &[aria-selected="true"],
+  &[aria-current="true"] {
+    background: var(--primary);
     color: white;
   }
 }
