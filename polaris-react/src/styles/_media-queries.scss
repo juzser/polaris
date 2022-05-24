@@ -1,0 +1,30 @@
+/* stylelint-disable unit-disallowed-list */
+/* stylelint-disable length-zero-no-unit */
+
+/* Breakpoints - Aliases */
+$p-breakpoints-xs: 0em;
+$p-breakpoints-sm: 2.1875em;
+$p-breakpoints-md: 3em;
+$p-breakpoints-lg: 3.9375em;
+$p-breakpoints-xl: 6.9375em;
+
+/* Breakpoints - Media conditions */
+$p-breakpoints-xs-up: '(min-width: 0em)';
+$p-breakpoints-xs-down: '(max-width: 0em)';
+$p-breakpoints-xs-only: '(min-width: 0em) and (max-width: 2.1875em)';
+
+$p-breakpoints-sm-up: '(min-width: 2.1875em)';
+$p-breakpoints-sm-down: '(max-width: 2.1875em)';
+$p-breakpoints-sm-only: '(min-width: 2.1875em) and (max-width: 3em)';
+
+$p-breakpoints-md-up: '(min-width: 3em)';
+$p-breakpoints-md-down: '(max-width: 3em)';
+$p-breakpoints-md-only: '(min-width: 3em) and (max-width: 3.9375em)';
+
+$p-breakpoints-lg-up: '(min-width: 3.9375em)';
+$p-breakpoints-lg-down: '(max-width: 3.9375em)';
+$p-breakpoints-lg-only: '(min-width: 3.9375em) and (max-width: 6.9375em)';
+
+$p-breakpoints-xl-up: '(min-width: 6.9375em)';
+$p-breakpoints-xl-down: '(max-width: 6.9375em)';
+$p-breakpoints-xl-only: '(min-width: 6.9375em)';
