@@ -179,12 +179,10 @@ $range-output-translate-x: calc(
   transition-timing-function: var(--p-ease);
 
   .Input:active + & {
-    $range-thumb-size-difference: var(--p-range-slider-thumb-size-active) -
-      var(--p-range-slider-thumb-size-base);
     opacity: 1;
     visibility: visible;
     bottom: calc(
-      var(--pc-range-slider-thumb-size) + #{$range-thumb-size-difference}
+      var(--pc-range-slider-thumb-size) + var(--p-range-slider-thumb-size-active) - var(--p-range-slider-thumb-size-base)
     );
   }
 }
