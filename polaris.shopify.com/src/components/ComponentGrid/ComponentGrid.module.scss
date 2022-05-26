@@ -13,11 +13,12 @@
     flex-direction: column;
     border-radius: var(--border-radius-400);
     color: inherit;
+    background: var(--surface);
     box-shadow: var(--card-shadow);
     overflow: hidden;
 
     &:hover {
-      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.175);
+      box-shadow: var(--card-shadow-hover);
     }
   }
 
