@@ -1,5 +1,18 @@
 # Changelog
 
+## 9.12.3
+
+### Patch Changes
+
+- [#6027](https://github.com/Shopify/polaris/pull/6027) [`d08935693`](https://github.com/Shopify/polaris/commit/d08935693d01e712ba0d3df291ac4e8703bc25f9) Thanks [@samrose3](https://github.com/samrose3)! - The `CustomProperties` component and the `colorScheme` prop in all components have been deprecated. Please see the [v9 to v10 migration guide](https://github.com/Shopify/polaris/blob/main/documentation/guides/migrating-from-v9-to-v10.md) for upgrade options.
+
+* [#5966](https://github.com/Shopify/polaris/pull/5966) [`1185d7fed`](https://github.com/Shopify/polaris/commit/1185d7feddbe402b38b62457717d48d046afbc52) Thanks [@kyledurand](https://github.com/kyledurand)! - Simplified the Grid component and improved its performance
+
+- [#5840](https://github.com/Shopify/polaris/pull/5840) [`04ce5c6a3`](https://github.com/Shopify/polaris/commit/04ce5c6a34b4165fe9f7f9d9b10bc5f5b453a18e) Thanks [@Berhell](https://github.com/Berhell)! - Fixed `Badge` and `Pip` having different background colors for `new` and `info` status ([#5840](https://github.com/Shopify/polaris/pull/5840))
+
+- Updated dependencies [[`27a0fba87`](https://github.com/Shopify/polaris/commit/27a0fba877789a3becb10c6e60d78921d71e6887)]:
+  - @shopify/polaris-tokens@5.2.0
+
 ## 9.12.2
 
 ### Patch Changes
