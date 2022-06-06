@@ -3,7 +3,6 @@ import { FigmaIcon, GitHubIcon, InstallIcon, VSCodeIcon } from "./icons";
 import MaxPageWidthDiv from "../MaxPageWidthDiv";
 import Link from "next/link";
 import { className } from "../../utils/various";
-import { LinkButton } from "../Button/Button";
 import componentsImage from "./components.png";
 import tokensImage from "./tokens.png";
 import iconsImage from "./icons.png";
@@ -201,23 +200,11 @@ export const Links = ({ links }: ResourceListItemProps) => {
         <li key={link.url}>
           <Link href={link.url}>
             <a data-icon={link.icon}>
-              {link.icon === "github" && (
-                <span className={styles.Icon}>
-                  <GitHubIcon />
-                </span>
-              )}
+              {link.icon === "github" && <GitHubIcon />}
 
-              {link.icon === "figma" && (
-                <span className={styles.Icon}>
-                  <FigmaIcon />{" "}
-                </span>
-              )}
+              {link.icon === "figma" && <FigmaIcon />}
 
-              {link.icon === "install" && (
-                <span className={styles.Icon}>
-                  <InstallIcon />
-                </span>
-              )}
+              {link.icon === "install" && <InstallIcon />}
 
               {link.label}
             </a>
