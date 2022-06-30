@@ -9,8 +9,8 @@ const headerNavItems: {
     url: "/resources",
   },
   {
-    label: "Guidelines",
-    url: "/guidelines/foundations/experience-values",
+    label: "Foundations",
+    url: "/foundations",
   },
   {
     label: "Components",
@@ -23,6 +23,10 @@ const headerNavItems: {
   {
     label: "Icons",
     url: "/icons",
+  },
+  {
+    label: "Contributing",
+    url: "/contributing",
   },
 ];
 
@@ -42,7 +46,7 @@ function NavItems({ currentSection, handleCloseMenu }: Props) {
           <li key={url}>
             <Link href={url} passHref>
               <a aria-current={isCurrent} onClick={handleCloseMenu}>
-                {label}
+                <span>{label}</span>
               </a>
             </Link>
           </li>

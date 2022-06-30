@@ -1,25 +1,29 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import useDarkMode from "use-dark-mode";
 
 import { Breakpoints } from "../../types";
 import GlobalSearch from "../GlobalSearch";
-import MaxPageWidthDiv from "../MaxPageWidthDiv";
+import Container from "../Container";
 import Button from "../Button";
 import SideNav from "../SideNav";
 import NavItems from "../NavItems";
 
 import styles from "./Header.module.scss";
 import shopifyLogo from "../../../public/shopify-logo.svg";
-import hamburguerIcon from "../../../public/images/icon-hamburguer.svg";
+import { useRouter } from "next/router";
 
 interface Props {
   currentSection?: string;
 }
 
 function Header({ currentSection }: Props) {
+  const router = useRouter();
   const [showMenu, setShowMenu] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const darkMode = useDarkMode(false);
+  const [showSkipToContentLink, setShowSkipToContentLink] = useState(true);
 
   useEffect(() => {
     function hideSideNavOnResize() {
@@ -34,6 +38,11 @@ function Header({ currentSection }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    const mainContent = document.querySelector("#main");
+    setShowSkipToContentLink(mainContent !== null);
+  }, [router.asPath]);
+
   const handleCloseMenu = () => {
     setShowMenu(false);
     menuButtonRef.current?.focus();
@@ -41,7 +50,7 @@ function Header({ currentSection }: Props) {
 
   return (
     <div className={styles.Header}>
-      <MaxPageWidthDiv className={styles.HeaderInner}>
+      <Container className={styles.HeaderInner}>
         <nav className={styles.SideNavContainer}>
           <Button
             id="menu-button"
@@ -51,13 +60,9 @@ function Header({ currentSection }: Props) {
             onClick={() => setShowMenu(true)}
             ref={menuButtonRef}
           >
-            <Image
-              src={hamburguerIcon}
-              layout="fixed"
-              width={24}
-              height={24}
-              alt=""
-            />
+            <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path d="M19 11h-18a1 1 0 0 1 0-2h18a1 1 0 1 1 0 2zm0-7h-18a1 1 0 0 1 0-2h18a1 1 0 1 1 0 2zm0 14h-18a1 1 0 0 1 0-2h18a1 1 0 0 1 0 2z" />
+            </svg>
           </Button>
 
           <SideNav
@@ -80,11 +85,25 @@ function Header({ currentSection }: Props) {
           </a>
         </Link>
 
+        {showSkipToContentLink && (
+          <a className={styles.SkipToContentLink} href="#main">
+            Skip to content
+          </a>
+        )}
+
         <nav className={styles.Nav}>
           <ul>
             <NavItems currentSection={currentSection} />
           </ul>
         </nav>
+
+        <button className={styles.DarkModeToggle} onClick={darkMode.toggle}>
+          {darkMode.value ? (
+            <div className={styles.LightModeIcon}>💡</div>
+          ) : (
+            <div className={styles.DarkModeIcon}>🌙</div>
+          )}
+        </button>
 
         <div className={styles.SearchWrapper}>
           <GlobalSearch />
@@ -93,7 +112,7 @@ function Header({ currentSection }: Props) {
         {showMenu && (
           <div className={styles.Backdrop} onClick={handleCloseMenu} />
         )}
-      </MaxPageWidthDiv>
+      </Container>
     </div>
   );
 }
