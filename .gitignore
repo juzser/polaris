@@ -10,3 +10,4 @@ dist
 node_modules
 /polaris-react/build
 /polaris-react/build-internal
+/polaris.shopify.com/.env.local
