@@ -1,10 +1,6 @@
 ---
 name: Banner
 category: Feedback indicators
-platforms:
-  - android
-  - ios
-  - web
 keywords:
   - inform
   - update
@@ -122,7 +118,7 @@ Banners should:
   figuring out what they need to know and do.
 - Be limited to a few important calls to action with no more than one primary
   action.
-- Not be used for marketing information or upsell—[use callout cards](https://polaris.shopify.com/components/structure/callout-card) instead.
+- Not be used for marketing information or upsell—[use callout cards](https://polaris.shopify.com/components/callout-card) instead.
 
 To learn about writing helpful and accessible error message text, see the guidelines for [error messages](https://polaris.shopify.com/patterns/error-messages).
 
@@ -278,32 +274,12 @@ including packaging.
 
 ## Related components
 
-- To inform merchants about a new feature or opportunity, [use callout cards](https://polaris.shopify.com/components/structure/callout-card)
-- To group similar concepts together in the interface, [use a card](https://polaris.shopify.com/components/structure/card)
+- To inform merchants about a new feature or opportunity, [use callout cards](https://polaris.shopify.com/components/callout-card)
+- To group similar concepts together in the interface, [use a card](https://polaris.shopify.com/components/card)
 
 ---
 
 ## Accessibility
-
-<!-- content-for: android -->
-
-See Material Design and development documentation about accessibility for Android:
-
-- [Accessible design on Android](https://material.io/design/usability/accessibility.html)
-- [Accessible development on Android](https://developer.android.com/guide/topics/ui/accessibility/)
-
-<!-- /content-for -->
-
-<!-- content-for: ios -->
-
-See Apple’s Human Interface Guidelines and API documentation about accessibility for iOS:
-
-- [Accessible design on iOS](https://developer.apple.com/design/human-interface-guidelines/ios/app-architecture/accessibility/)
-- [Accessible development on iOS](https://developer.apple.com/accessibility/ios/)
-
-<!-- /content-for -->
-
-<!-- content-for: web -->
 
 Banners provide context and assist workflows for merchants with disabilities.
 
@@ -322,7 +298,7 @@ When merchants submit long or complex forms with errors, use a critical banner t
 
 #### Inline errors
 
-Always include [inline error](https://polaris.shopify.com/components/forms/inline-error) messages for specific form fields so that merchants know what to do in context as they correct their mistakes.
+Always include [inline error](https://polaris.shopify.com/components/inline-error) messages for specific form fields so that merchants know what to do in context as they correct their mistakes.
 
 To learn about creating helpful and accessible error message text, see the guidelines for [error messages](https://polaris.shopify.com/patterns/error-messages).
 
@@ -340,5 +316,3 @@ To learn about creating helpful and accessible error message text, see the guide
 - Use warning or critical (`role=”alert”`) banners to convey information that the merchant doesn’t need to address immediately
 
 <!-- end -->
-
-<!-- /content-for -->

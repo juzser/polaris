@@ -1,10 +1,6 @@
 ---
 name: Text container
 category: Titles and text
-platforms:
-  - android
-  - ios
-  - web
 releasedIn: 1.9.0
 keywords:
   - spacing
@@ -49,4 +45,4 @@ The closer the spacing, the closer the relationship between content topics. The 
 
 ## Related components
 
-- For more layout variations, or if you’re looking to vertically space components other than text, use [Stack](https://polaris.shopify.com/components/structure/stack).
+- For more layout variations, or if you’re looking to vertically space components other than text, use [Stack](https://polaris.shopify.com/components/stack).

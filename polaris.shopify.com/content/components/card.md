@@ -1,10 +1,6 @@
 ---
 name: Card
 category: Structure
-platforms:
-  - android
-  - ios
-  - web
 keywords:
   - layout
   - container
@@ -109,8 +105,7 @@ examples:
 
 # Card
 
-Cards are used to group similar concepts and tasks together to make Shopify
-easier for merchants to scan, read, and get things done.
+Cards are used to group similar concepts and tasks together to make Shopify easier for merchants to scan, read, and get things done.
 
 ---
 
@@ -255,32 +250,12 @@ Links should be:
 
 ## Related components
 
-- To create page-level layout, [use the layout component](https://polaris.shopify.com/components/structure/layout)
-- To highlight a Shopify feature, [use the callout card component](https://polaris.shopify.com/components/structure/callout-card)
+- To create page-level layout, [use the layout component](https://polaris.shopify.com/components/layout)
+- To highlight a Shopify feature, [use the callout card component](https://polaris.shopify.com/components/callout-card)
 
 ---
 
 ## Accessibility
-
-<!-- content-for: android -->
-
-See Material Design and development documentation about accessibility for Android:
-
-- [Accessible design on Android](https://material.io/design/usability/accessibility.html)
-- [Accessible development on Android](https://developer.android.com/guide/topics/ui/accessibility/)
-
-<!-- /content-for -->
-
-<!-- content-for: ios -->
-
-See Apple’s Human Interface Guidelines and API documentation about accessibility for iOS:
-
-- [Accessible design on iOS](https://developer.apple.com/design/human-interface-guidelines/ios/app-architecture/accessibility/)
-- [Accessible development on iOS](https://developer.apple.com/accessibility/ios/)
-
-<!-- /content-for -->
-
-<!-- content-for: web -->
 
 The required `title` prop gives the card a level 2 heading (`<h2>`). This helps with readability and provides structure to screen reader users.
 
@@ -311,5 +286,3 @@ If you use the `subdued` prop on a card or section, make sure that the card or s
 ```
 
 <!-- end -->
-
-<!-- /content-for -->

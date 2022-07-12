@@ -1,10 +1,6 @@
 ---
 name: Text field
 category: Forms
-platforms:
-  - android
-  - ios
-  - web
 keywords:
   - TextField
   - input
@@ -233,33 +229,13 @@ For text field content guidelines, reference the [text fields experience](https:
 
 ## Related components
 
-- To lay out the elements in a responsive form, [use the form layout component](https://polaris.shopify.com/components/forms/form-layout)
-- To describe an invalid form input with a separate validation error, [use the inline error component](https://polaris.shopify.com/components/forms/inline-error)
-- It’s common to [use a select component](https://polaris.shopify.com/components/forms/select) connected to the left or right of a text field.
+- To lay out the elements in a responsive form, [use the form layout component](https://polaris.shopify.com/components/form-layout)
+- To describe an invalid form input with a separate validation error, [use the inline error component](https://polaris.shopify.com/components/inline-error)
+- It’s common to [use a select component](https://polaris.shopify.com/components/select) connected to the left or right of a text field.
 
 ---
 
 ## Accessibility
-
-<!-- content-for: android -->
-
-See Material Design and development documentation about accessibility for Android:
-
-- [Accessible design on Android](https://material.io/design/usability/accessibility.html)
-- [Accessible development on Android](https://developer.android.com/guide/topics/ui/accessibility/)
-
-<!-- /content-for -->
-
-<!-- content-for: ios -->
-
-See Apple’s Human Interface Guidelines and API documentation about accessibility for iOS:
-
-- [Accessible design on iOS](https://developer.apple.com/design/human-interface-guidelines/ios/app-architecture/accessibility/)
-- [Accessible development on iOS](https://developer.apple.com/accessibility/ios/)
-
-<!-- /content-for -->
-
-<!-- content-for: web -->
 
 ### Structure
 
@@ -307,5 +283,3 @@ Text fields have standard keyboard support.
 #### Automatically focusing
 
 Although you can use the `autoFocus` prop to automatically move focus to the text field, it’s generally best to avoid focusing on fields automatically. The `autoFocus` prop is set to `false` by default and should only be used in cases where it won’t force focus to skip other controls or content of equal or greater importance.
-
-<!-- /content-for -->

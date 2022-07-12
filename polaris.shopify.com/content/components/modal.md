@@ -1,10 +1,6 @@
 ---
 name: Modal
 category: Overlays
-platforms:
-  - android
-  - ios
-  - web
 keywords:
   - modal
   - src
@@ -254,33 +250,13 @@ Body content should be:
 
 ## Related components
 
-- To present large amounts of additional information or actions that don’t require confirmation, [use the collapsible component](https://polaris.shopify.com/components/behavior/collapsible) to expand content in place within the page
-- To present a small amount of content or a menu of actions in a non-blocking overlay, [use the popover component](https://polaris.shopify.com/components/overlays/popover)
-- To communicate a change or condition that needs the merchant’s attention within the context of a page, [use the banner component](https://polaris.shopify.com/components/feedback-indicators/banner)
+- To present large amounts of additional information or actions that don’t require confirmation, [use the collapsible component](https://polaris.shopify.com/components/collapsible) to expand content in place within the page
+- To present a small amount of content or a menu of actions in a non-blocking overlay, [use the popover component](https://polaris.shopify.com/components/popover)
+- To communicate a change or condition that needs the merchant’s attention within the context of a page, [use the banner component](https://polaris.shopify.com/components/banner)
 
 ---
 
 ## Accessibility
-
-<!-- content-for: android -->
-
-See Material Design and development documentation about accessibility for Android:
-
-- [Accessible design on Android](https://material.io/design/usability/accessibility.html)
-- [Accessible development on Android](https://developer.android.com/guide/topics/ui/accessibility/)
-
-<!-- /content-for -->
-
-<!-- content-for: ios -->
-
-See Apple’s Human Interface Guidelines and API documentation about accessibility for iOS:
-
-- [Accessible design on iOS](https://developer.apple.com/design/human-interface-guidelines/ios/app-architecture/accessibility/)
-- [Accessible development on iOS](https://developer.apple.com/accessibility/ios/)
-
-<!-- /content-for -->
-
-<!-- content-for: web -->
 
 - Modals use ARIA `role=”dialog”` to convey to screen reader users that they work like native dialog windows.
 - If you set the `title` prop to give the modal component a heading, then the `title` is used to label the dialog element with `aria-labelledby`. This helps to convey the purpose of the modal to screen reader users when it displays.
@@ -292,5 +268,3 @@ See Apple’s Human Interface Guidelines and API documentation about accessibili
 - While the modal is open, keyboard focus shouldn’t leave the modal
 - Merchants can dismiss the modal with the keyboard by activating the `X` button, the `Cancel` button if one is provided, or by pressing the <kbd>Esc</kbd> key
 - After a modal is closed, focus returns to the button that launched it
-
-<!-- /content-for -->

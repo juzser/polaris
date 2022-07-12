@@ -4,8 +4,8 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 
-// Place CSS variables on body so that we can
-// utilize the .dark-mode class to flip the colors
+// Place CSS variables on body (instead of :root) so that
+// we can utilize the .dark-mode class to flip the colors
 body {
   --page-max-width: #{$pageMaxWidth};
   --header-height: 72px;
@@ -24,6 +24,9 @@ body {
   --duration-200: 200ms;
   --ease-in-out: cubic-bezier(0.42, 0, 0.58, 1);
   --focus-outline: 0 0 0 2px var(--text-strong);
+  --focus-outline-inside: inset 0 0 0 2px var(--text-strong);
+  --font-family-mono: "SF Mono", SFMono-Regular, ui-monospace,
+    "DejaVu Sans Mono", Menlo, Consolas, monospace;
 
   // Based on: https://type-scale.com/?size=16&scale=1.125&text=A%20Visual%20Type%20Scale&font=Poppins&fontweight=400&bodyfont=body_font_default&bodyfontweight=400&lineheight=1.75&backgroundcolor=%23ffffff&fontcolor=%23000000&preview=false
   --font-size-50: 0.75rem;
@@ -124,18 +127,16 @@ video {
 }
 
 html {
-  font-size: 17px;
+  font-size: 106.25%;
 
   @media screen and (max-width: $breakpointMobile) {
-    font-size: 16px;
+    font-size: 100%;
   }
 }
 
 body {
   font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  font-variant-ligatures: common-ligatures contextual discretionary-ligatures;
-  font-feature-settings: "kern", "liga", "clig", "calt", "dlig";
   line-height: 1.6;
   font-weight: var(--font-weight-400);
 }
@@ -144,6 +145,54 @@ body,
 .theme {
   background: var(--surface);
   color: var(--text);
+}
+
+.light-mode {
+  --text: #3c4141;
+  --text-strong: #111212;
+  --text-subdued: #767676;
+  --text-link: #2e5dba;
+  --surface: #fff;
+  --surface-subdued: #f7f7f7;
+  --surface-information: #dcf5f0;
+  --surface-warning: #ffeceb;
+  --primary: #008060;
+  --border-color: #dedede;
+  --border-color-light: #ededed;
+  --border: 1px solid var(--border-color);
+  --card-shadow: 0 0 0 1px rgb(0 0 0 / 10%), 0 1px 2px rgb(0 0 0 / 4%);
+  --card-shadow-hover: 0 4px 7px rgba(0, 0, 0, 0.1),
+    0 0 0 0.5px var(--border-color);
+  --decorative-1: #dfefd2;
+  --decorative-2: #ffe6cd;
+  --decorative-3: #f8dff1;
+  --decorative-4: #dce0f5;
+  --backdrop: rgba(0, 0, 0, 0.5);
+  --search-highlight-color: #f4f5f5;
+}
+
+.dark-mode {
+  --text: #aaa;
+  --text-strong: #e7e7e7;
+  --text-subdued: #777;
+  --surface-information: #02382d;
+  --surface-warning: #4c250f;
+  --text-link: #6995ee;
+  --surface: #202021;
+  --surface-subdued: #2e2e30;
+  --primary: #1aab87;
+  --border-color: #555;
+  --border-color-light: #343434;
+  --border: 1px solid var(--border-color);
+  --card-shadow: inset 0 0 0 1px rgb(255 255 255 / 12%);
+  --card-shadow-hover: 0 4px 7px rgba(255, 255, 255, 0.1),
+    inset 0 0 0 1px rgb(255 255 255 / 12%);
+  --decorative-1: #224700;
+  --decorative-2: #603900;
+  --decorative-3: #601249;
+  --decorative-4: #342484;
+  --backdrop: rgba(0, 0, 0, 0.5);
+  --search-highlight-color: #363636;
 }
 
 a {
@@ -259,18 +308,23 @@ button {
         margin-left: 0;
       }
 
+      li:before {
+        display: none;
+      }
+
       &[data-type="dont"] {
         li,
         p {
           background-image: url(/images/icon-dont.svg);
         }
+
+        li > p {
+          background: none;
+          padding-left: 0;
+        }
       }
     }
   }
-}
-
-.twoColumnsResponsive div img {
-  display: none;
 }
 
 .NextPage {

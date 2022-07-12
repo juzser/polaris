@@ -1,10 +1,6 @@
 ---
 name: Toast
 category: Feedback indicators
-platforms:
-  - android
-  - ios
-  - web
 keywords:
   - toast
   - flash message
@@ -33,11 +29,11 @@ examples:
   - fileName: toast-with-custom-duration.tsx
     title: Toast with custom duration
     description: Use to shorten or lengthen the default duration of 5000 milliseconds.
-  - fileName: toast-with-action.tsx
-    title: Toast with action
-    description: >-
-      Use when a merchant has the ability to act on the message. For example, to
-      undo a change or retry an action.
+  # - fileName: toast-with-action.tsx
+  #   title: Toast with action
+  #   description: >-
+  #     Use when a merchant has the ability to act on the message. For example, to
+  #     undo a change or retry an action.
   # - fileName: toast-default.tsx
   #   title: Default toast
   #   description: >-
@@ -55,12 +51,6 @@ examples:
     description: >-
       On iOS, icons are available for cases where you want to
       re-inforce the message.
-  # - fileName: toast-with-action.tsx
-  #   title: With action
-  #   description: >-
-  #     Use action when merchants have the ability to act on the message. For
-  #     example, to undo a change or retry an action. Keep the action label short,
-  #     preferably 1 verb action.
 ---
 
 # Toast
@@ -71,7 +61,7 @@ The toast component is a non-disruptive message that appears at the bottom of th
 
 ## Required components
 
-The toast component must be wrapped in the [frame](https://polaris.shopify.com/components/structure/frame) component.
+The toast component must be wrapped in the [frame](https://polaris.shopify.com/components/frame) component.
 
 ---
 
@@ -162,14 +152,12 @@ Action should:
 
 ## Related components
 
-- To present a small amount of content or a menu of actions in a non-blocking overlay, [use the popover component](https://polaris.shopify.com/components/overlays/popover)
-- To communicate a change or condition that needs the merchant’s attention within the context of a page, [use the banner component](https://polaris.shopify.com/components/feedback-indicators/banner)
+- To present a small amount of content or a menu of actions in a non-blocking overlay, [use the popover component](https://polaris.shopify.com/components/popover)
+- To communicate a change or condition that needs the merchant’s attention within the context of a page, [use the banner component](https://polaris.shopify.com/components/banner)
 
 ---
 
 ## Accessibility
-
- <!-- content-for: web -->
 
 The content of the toast component is implemented as an ARIA live region using `aria-live="polite"`. When the toast appears, screen readers should announce the toast text after any other more pressing announcements.
 
@@ -184,5 +172,3 @@ Avoid using toast for critical information that merchants need to act on immedia
 Make sure that merchants can also accomplish the action in the toast another way, since the toast action may be difficult to access for some merchants. If the toast action is not available somewhere else on the page, for example a retry action that reloads a section, it should have a fallback action, for example a browser refresh.
 
 Toast with action should persist for at least 10,000 milliseconds to give the merchant enough time to act on it.
-
- <!-- /content-for -->

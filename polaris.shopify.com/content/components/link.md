@@ -40,7 +40,7 @@ examples:
 
 Links take users to another place, and usually appear within or directly following a sentence.
 
-For actions that aren’t related to navigation, use the [button component](https://polaris.shopify.com/components/actions/button).
+For actions that aren’t related to navigation, use the [button component](https://polaris.shopify.com/components/button).
 
 ---
 
@@ -72,13 +72,11 @@ The link component should follow the content guidelines for [links](https://pola
 
 ## Related components
 
-- For actions that don’t appear within or directly following a sentence, use the [button component](https://polaris.shopify.com/components/actions/button)
+- For actions that don’t appear within or directly following a sentence, use the [button component](https://polaris.shopify.com/components/button)
 
 ---
 
 ## Accessibility
-
-<!-- content-for: web -->
 
 Use the `url` prop to give the link component a valid `href` value. This allows the element to be identified as a link to assistive technologies and gives it default keyboard support.
 
@@ -109,7 +107,7 @@ The Link component is underlined to give interactive elements a shape. This allo
 
 ### Submitting data
 
-Merchants generally expect links to navigate, and not to submit data or take action. If you need a component that doesn’t have a URL associated with it, then use the [button component](https://polaris.shopify.com/components/actions/button) instead.
+Merchants generally expect links to navigate, and not to submit data or take action. If you need a component that doesn’t have a URL associated with it, then use the [button component](https://polaris.shopify.com/components/button) instead.
 
 ### Labeling
 
@@ -172,5 +170,3 @@ Links use browser defaults for keyboard interaction.
 
 - Give links keyboard focus with the <kbd>tab</kbd> key (or <kbd>shift</kbd> + <kbd>tab</kbd> when tabbing backwards)
 - Activate links with the <kbd>enter</kbd>/<kbd>return</kbd> key
-
-<!-- /content-for -->

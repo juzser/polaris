@@ -20,8 +20,7 @@ examples:
 
 # Fullscreen bar
 
-The Fullscreen bar is a header component that should be presented at the top of an app when it is in fullscreen mode. This is designed to ensure
-a uniform placement for a button to exit that mode. The Fullscreen bar can be customized by adding `children`.
+The Fullscreen bar is a header component that should be presented at the top of an app when it is in fullscreen mode. This is designed to ensure a uniform placement for a button to exit that mode. The Fullscreen bar can be customized by adding `children`.
 
 ---
 
@@ -36,5 +35,5 @@ The Fullscreen bar component should:
 
 ## Related components
 
-- To provide quick, at-a-glance feedback on the outcome of an action, use the [toast](https://polaris.shopify.com/components/feedback-indicators/toast) component.
-- To indicate to merchants that a page is loading or an upload is processing, use the [loading](https://polaris.shopify.com/components/feedback-indicators/loading) component.
+- To provide quick, at-a-glance feedback on the outcome of an action, use the [toast](https://polaris.shopify.com/components/toast) component.
+- To indicate to merchants that a page is loading or an upload is processing, use the [loading](https://polaris.shopify.com/components/loading) component.

@@ -1,10 +1,6 @@
 ---
 name: Choice list
 category: Forms
-platforms:
-  - android
-  - ios
-  - web
 keywords:
   - ChoiceList
   - form
@@ -203,34 +199,12 @@ If your list contains helper text, only the description below the list item shou
 
 ## Related components
 
-- To present a long list of radio buttons or when space is constrained, [use the select component](https://polaris.shopify.com/components/forms/select)
-- To build a group of radio buttons or checkboxes with a custom layout, use the [radio button component](https://polaris.shopify.com/components/forms/radio-button) or [checkbox component](https://polaris.shopify.com/components/forms/checkbox)
-- To display a simple, non-interactive list of related content, [use the list component](https://polaris.shopify.com/components/lists-and-tables/list)
+- To present a long list of radio buttons or when space is constrained, [use the select component](https://polaris.shopify.com/components/select)
+- To build a group of radio buttons or checkboxes with a custom layout, use the [radio button component](https://polaris.shopify.com/components/radio-button) or [checkbox component](https://polaris.shopify.com/components/checkbox)
+- To display a simple, non-interactive list of related content, [use the list component](https://polaris.shopify.com/components/list)
 
 ---
 
 ## Accessibility
 
-<!-- content-for: android -->
-
-See Material Design and development documentation about accessibility for Android:
-
-- [Accessible design on Android](https://material.io/design/usability/accessibility.html)
-- [Accessible development on Android](https://developer.android.com/guide/topics/ui/accessibility/)
-
-<!-- /content-for -->
-
-<!-- content-for: ios -->
-
-See Apple’s Human Interface Guidelines and API documentation about accessibility for iOS:
-
-- [Accessible design on iOS](https://developer.apple.com/design/human-interface-guidelines/ios/app-architecture/accessibility/)
-- [Accessible development on iOS](https://developer.apple.com/accessibility/ios/)
-
-<!-- /content-for -->
-
-<!-- content-for: web -->
-
-The choice list component uses the accessibility features of the [checkbox](https://polaris.shopify.com/components/forms/checkbox) and [radio button](https://polaris.shopify.com/components/forms/radio-button) components.
-
-<!-- /content-for -->
+The choice list component uses the accessibility features of the [checkbox](https://polaris.shopify.com/components/checkbox) and [radio button](https://polaris.shopify.com/components/radio-button) components.

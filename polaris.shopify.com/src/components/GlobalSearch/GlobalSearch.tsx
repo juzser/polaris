@@ -15,7 +15,6 @@ import Link from "next/link";
 import { className, slugify, stripMarkdownLinks } from "../../utils/various";
 import { Dialog } from "@headlessui/react";
 import { KeyboardEventHandler } from "react";
-import ThemeProvider from "../ThemeProvider";
 
 interface Props {}
 
@@ -84,7 +83,7 @@ function GlobalSearch({}: Props) {
   }, []);
 
   useEffect(() => {
-    setSearchResults(search(searchTerm));
+    setSearchResults(search(searchTerm.trim()));
     setActiveDescendant(0);
     scrollToTop();
   }, [searchTerm]);
@@ -103,6 +102,12 @@ function GlobalSearch({}: Props) {
       router.events.off("hashChangeComplete", handler);
     };
   }, [setIsOpen, router.events]);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setSearchTerm("");
+    }
+  }, [isOpen]);
 
   const handleKeyboardNavigation: KeyboardEventHandler<HTMLDivElement> = (
     evt
@@ -168,7 +173,7 @@ function GlobalSearch({}: Props) {
 
       <Dialog open={isOpen} onClose={() => setIsOpen(false)}>
         <div className={styles.ModalBackdrop}></div>
-        <ThemeProvider theme="dark">
+        <div className="dark-mode">
           <>
             <Dialog.Panel className={styles.Results}>
               {isOpen && (
@@ -221,7 +226,7 @@ function GlobalSearch({}: Props) {
                           const results = searchResults[typedCategory].results;
                           if (results.length === 0) return null;
                           return (
-                            <ResultsGroup title={category}>
+                            <ResultsGroup title={category} key={category}>
                               <div className={styles.FoundationsResults}>
                                 {results.map((result) => {
                                   resultIndex++;
@@ -261,7 +266,7 @@ function GlobalSearch({}: Props) {
                           const results = searchResults[typedCategory].results;
                           if (results.length === 0) return null;
                           return (
-                            <ResultsGroup title={category}>
+                            <ResultsGroup title={category} key={category}>
                               <ComponentGrid>
                                 {results.map((result) => {
                                   resultIndex++;
@@ -271,6 +276,7 @@ function GlobalSearch({}: Props) {
                                       url={result.url}
                                       description={result.meta.description}
                                       name={result.meta.name}
+                                      status={result.meta.status}
                                       {...getItemProps({ resultIndex })}
                                     />
                                   );
@@ -284,7 +290,7 @@ function GlobalSearch({}: Props) {
                           const results = searchResults[typedCategory].results;
                           if (results.length === 0) return null;
                           return (
-                            <ResultsGroup title={category}>
+                            <ResultsGroup title={category} key={category}>
                               <TokenList
                                 showTableHeading={false}
                                 columns={{
@@ -313,16 +319,16 @@ function GlobalSearch({}: Props) {
                         case "Icons": {
                           const results = searchResults[typedCategory].results;
                           if (results.length === 0) return null;
+
                           return (
-                            <ResultsGroup title={category}>
+                            <ResultsGroup title={category} key={category}>
                               <IconGrid>
                                 {results.map((result) => {
                                   resultIndex++;
                                   return (
                                     <IconGrid.Item
-                                      key={result.url}
+                                      key={result.meta.icon.id}
                                       icon={result.meta.icon}
-                                      onClick={() => router.push(result.url)}
                                       {...getItemProps({ resultIndex })}
                                     />
                                   );
@@ -336,7 +342,7 @@ function GlobalSearch({}: Props) {
               </div>
             </Dialog.Panel>
           </>
-        </ThemeProvider>
+        </div>
       </Dialog>
     </>
   );

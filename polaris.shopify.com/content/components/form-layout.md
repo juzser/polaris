@@ -1,10 +1,6 @@
 ---
 name: Form layout
 category: Forms
-platforms:
-  - android
-  - ios
-  - web
 keywords:
   - FormLayout
   - Group
@@ -115,4 +111,4 @@ Help text provides extra guidance to people filling out a form field. This text 
 
 ## Related components
 
-- To arrange the largest sections of a page, [use the layout component](https://polaris.shopify.com/components/structure/layout)
+- To arrange the largest sections of a page, [use the layout component](https://polaris.shopify.com/components/layout)

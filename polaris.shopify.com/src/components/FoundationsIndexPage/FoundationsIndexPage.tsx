@@ -1,18 +1,19 @@
 import Head from "next/head";
 import { foundationsNavItems } from "../../data/navItems";
-import { getTitleTagValue } from "../../utils/various";
 import styles from "./FoundationsIndexPage.module.scss";
 import Link from "next/link";
 import Layout from "../Layout";
+import PageMeta from "../PageMeta";
 
 interface Props {}
 
 function FoundationsIndexPage({}: Props) {
   return (
     <div className={styles.FoundationsIndexPage}>
-      <Head>
-        <title>{getTitleTagValue("Foundations")}</title>
-      </Head>
+      <PageMeta
+        title="Foundations"
+        description="Our design foundations offer fundamental design elements and guidance for creating good merchant experiences."
+      />
 
       <Layout
         title="Foundations"
