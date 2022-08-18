@@ -1,4 +1,4 @@
-import React, {FocusEventHandler, useState} from 'react';
+import React, {FocusEventHandler, useRef} from 'react';
 import {SortAscendingMajor, SortDescendingMajor} from '@shopify/polaris-icons';
 
 import {classNames, variationName} from '../../../../utilities/css';
@@ -63,17 +63,6 @@ export function Cell({
   const i18n = useI18n();
   const numeric = contentType === 'numeric';
 
-  const [showTooltip, setShowTooltip] = useState(false);
-
-  function setTooltip(ref: HTMLTableCellElement | null) {
-    if (!ref) {
-      return;
-    }
-    if (ref.scrollWidth > ref.offsetWidth && inFixedFirstColumn) {
-      setShowTooltip(true);
-    }
-  }
-
   const className = classNames(
     styles.Cell,
     styles[`Cell-${variationName('verticalAlign', verticalAlign)}`],
@@ -118,7 +107,12 @@ export function Cell({
     </span>
   );
 
-  const focusable = inFixedFirstColumn || !(hasFixedFirstColumn && firstColumn);
+  const focusable = !(
+    stickyHeadingCell &&
+    hasFixedFirstColumn &&
+    firstColumn &&
+    !inFixedFirstColumn
+  );
 
   const sortableHeadingContent = (
     <button
@@ -172,17 +166,10 @@ export function Cell({
       scope="row"
       {...colSpanProp}
       ref={(ref) => {
-        setTooltip(ref);
         setRef(ref);
       }}
     >
-      {showTooltip ? (
-        <Tooltip content={content}>
-          <span className={styles.TooltipContent}>{content}</span>
-        </Tooltip>
-      ) : (
-        content
-      )}
+      <TruncatedText className={styles.TooltipContent}>{content}</TruncatedText>
     </th>
   );
 
@@ -197,3 +184,25 @@ export function Cell({
 
   return stickyHeadingCell ? stickyHeading : cellMarkup;
 }
+
+const TruncatedText = ({
+  children,
+  className = '',
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
+  const textRef = useRef<any | null>(null);
+  const {current} = textRef;
+  const text = (
+    <span ref={textRef} className={className}>
+      {children}
+    </span>
+  );
+
+  return current?.scrollWidth > current?.offsetWidth ? (
+    <Tooltip content={textRef.current.innerText}>{text}</Tooltip>
+  ) : (
+    text
+  );
+};
