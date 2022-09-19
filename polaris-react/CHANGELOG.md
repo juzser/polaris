@@ -1,5 +1,75 @@
 # Changelog
 
+## 10.3.0
+
+### Minor Changes
+
+- [#7181](https://github.com/Shopify/polaris/pull/7181) [`577796691`](https://github.com/Shopify/polaris/commit/57779669169f503cdceaedbb9c0ca269cef4d9b2) Thanks [@laurkim](https://github.com/laurkim)! - Added stories for `Text` component
+
+* [#7140](https://github.com/Shopify/polaris/pull/7140) [`9eff83ea6`](https://github.com/Shopify/polaris/commit/9eff83ea6b3011cb45c777b0f9e48cb9a82cd210) Thanks [@renerbaffa](https://github.com/renerbaffa)! - Export hexToRgb from color-transformers
+
+- [#7050](https://github.com/Shopify/polaris/pull/7050) [`0ccc981fc`](https://github.com/Shopify/polaris/commit/0ccc981fc39506e07222e4106aaed1b5bb765f85) Thanks [@gwyneplaine](https://github.com/gwyneplaine)! - Exposes useBreakpoint as a named export from @shopify/polaris-react
+
+* [#7178](https://github.com/Shopify/polaris/pull/7178) [`2ce4503f5`](https://github.com/Shopify/polaris/commit/2ce4503f5f886f24686c6f1ee0b79edaa658e174) Thanks [@IrinaLipovaya](https://github.com/IrinaLipovaya)! - Add `ariaLabelledBy` prop to `ProgressBar` component to allow ids of description elements for accessibility
+
+### Patch Changes
+
+- [#7132](https://github.com/Shopify/polaris/pull/7132) [`c31402639`](https://github.com/Shopify/polaris/commit/c3140263993046e68d8c1c51cb14d42c1a40e170) Thanks [@martenbjork](https://github.com/martenbjork)! - Clarified the naming of SkeletonTabs props (from "Props" to "SkeletonTabsProps")
+
+* [#7141](https://github.com/Shopify/polaris/pull/7141) [`8e16d15d1`](https://github.com/Shopify/polaris/commit/8e16d15d1249591e9e854ae294ec8ce8ab3e3594) Thanks [@renerbaffa](https://github.com/renerbaffa)! - Added an example of Hex code TextField to ColorPicker
+
+- [#7179](https://github.com/Shopify/polaris/pull/7179) [`3911a45a8`](https://github.com/Shopify/polaris/commit/3911a45a8dc3010d31f5bec6208e58ab4db88bd7) Thanks [@laurkim](https://github.com/laurkim)! - Updated `Text` component to use `semibold` for `headingXs` variant
+
+* [#7111](https://github.com/Shopify/polaris/pull/7111) [`69faaa41d`](https://github.com/Shopify/polaris/commit/69faaa41db4af147b1e4e3de1c0e4b683143d64b) Thanks [@nneubarth](https://github.com/nneubarth)! - Fixed bug in which deleted elements or clicks inside other portal-based elements were inappropriately closing popovers
+
+* Updated dependencies [[`9d6497970`](https://github.com/Shopify/polaris/commit/9d64979708a2e961a537e5b152ad028e6aa52795)]:
+  - @shopify/polaris-icons@6.2.0
+
+## 10.2.0
+
+### Minor Changes
+
+- [#7064](https://github.com/Shopify/polaris/pull/7064) [`e2c7d6676`](https://github.com/Shopify/polaris/commit/e2c7d66760b7aef20dda18153e23222d58c61fcf) Thanks [@KaunainKarmali](https://github.com/KaunainKarmali)! - - Improved the `useIndexResourceState` hook by exposing a new function called `removeSelectedResources`
+  - The `removeSelectedResources` function supports removing one or more items from the `selectedResources` state
+
+## 10.1.2
+
+### Patch Changes
+
+- Updated dependencies [[`811af5907`](https://github.com/Shopify/polaris/commit/811af590780f4546b4add345205382f87b429569)]:
+  - @shopify/polaris-icons@6.1.0
+
+## 10.1.1
+
+### Patch Changes
+
+- [#6840](https://github.com/Shopify/polaris/pull/6840) [`90f325460`](https://github.com/Shopify/polaris/commit/90f32546022103e2bba1a4659306152d7facc149) Thanks [@AndrewMusgrave](https://github.com/AndrewMusgrave)! - Removed additional reflows from IndexTable
+
+## 10.1.0
+
+### Minor Changes
+
+- [#6976](https://github.com/Shopify/polaris/pull/6976) [`ae7345f0c`](https://github.com/Shopify/polaris/commit/ae7345f0cc71cfe0290302667722dd758b0891bc) Thanks [@tylernoseworthy](https://github.com/tylernoseworthy)! - - Added a `fixedFirstColumns` prop to `DataTable` so that multiple columns can be fixed
+  - Deprecated the `DataTable` `fixedFirstColumn` prop
+
+* [#7043](https://github.com/Shopify/polaris/pull/7043) [`60086a61f`](https://github.com/Shopify/polaris/commit/60086a61ff5906d998ff23fbe1090ecab49cb0e2) Thanks [@philschoefer](https://github.com/philschoefer)! - Updates to `DataTable`
+
+  - Fixed `DataTable` cell content not wrapping when the `truncate` prop is `false`
+  - Added support for setting the `DataTable` `truncate` prop without having to set the `fixedFirstColumns` prop
+
+### Patch Changes
+
+- [#7022](https://github.com/Shopify/polaris/pull/7022) [`716956df6`](https://github.com/Shopify/polaris/commit/716956df6939d86204342fb7107c81333f570517) Thanks [@QuintonC](https://github.com/QuintonC)! - Fixed visual bug for avatar shape prop
+
+* [#7038](https://github.com/Shopify/polaris/pull/7038) [`d1a33d8b0`](https://github.com/Shopify/polaris/commit/d1a33d8b0194858a0405cbb19fa7d35e897ffa7c) Thanks [@kyledurand](https://github.com/kyledurand)! - Applied default background color to image avatar
+
+- [#6993](https://github.com/Shopify/polaris/pull/6993) [`fa840e4a9`](https://github.com/Shopify/polaris/commit/fa840e4a9dc47a9afdeca0c5f4191294183a8093) Thanks [@kyledurand](https://github.com/kyledurand)! - Removed deprecation from Layout.AnnotatedSection
+
+* [#7003](https://github.com/Shopify/polaris/pull/7003) [`2b5f7d0fc`](https://github.com/Shopify/polaris/commit/2b5f7d0fc57149f27fe28d31b3618d98b057923c) Thanks [@mrcthms](https://github.com/mrcthms)! - Fix visual bug for sortable, selectable index table headings
+
+* Updated dependencies [[`bd00ef4ed`](https://github.com/Shopify/polaris/commit/bd00ef4ed5307aa07bb7fbd00ff4328179b859e1), [`1e0645f33`](https://github.com/Shopify/polaris/commit/1e0645f334e16cff5051f321a822324dd70e16c1), [`635bcfeb7`](https://github.com/Shopify/polaris/commit/635bcfeb710504847f46f10c68722bbc7e452bde)]:
+  - @shopify/polaris-icons@6.0.0
+
 ## 10.0.0
 
 ### Major Changes
