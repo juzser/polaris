@@ -39,13 +39,24 @@ import {getTableHeadingsBySelector} from './utilities';
 import {ScrollContainer, Cell, Row} from './components';
 import styles from './IndexTable.scss';
 
-export interface IndexTableHeading {
-  title: string;
-  id?: string;
+interface IndexTableHeadingBase {
   flush?: boolean;
   new?: boolean;
   hidden?: boolean;
 }
+
+interface IndexTableHeadingTitleString extends IndexTableHeadingBase {
+  title: string;
+}
+
+interface IndexTableHeadingTitleNode extends IndexTableHeadingBase {
+  title: React.ReactNode;
+  id: string;
+}
+
+export type IndexTableHeading =
+  | IndexTableHeadingTitleString
+  | IndexTableHeadingTitleNode;
 
 export type IndexTableSortDirection = 'ascending' | 'descending';
 
@@ -279,6 +290,46 @@ function IndexTableBase({
     setSmallScreen(smallScreen);
   }, [smallScreen]);
 
+  const [canFitStickyColumn, setCanFitStickyColumn] = useState(true);
+
+  const handleCanFitStickyColumn = useCallback(() => {
+    if (!scrollableContainerElement.current || !tableHeadings.current.length) {
+      return;
+    }
+    const scrollableRect =
+      scrollableContainerElement.current.getBoundingClientRect();
+    const checkboxColumnWidth = selectable
+      ? tableHeadings.current[0].getBoundingClientRect().width
+      : 0;
+    const firstStickyColumnWidth =
+      tableHeadings.current[selectable ? 1 : 0].getBoundingClientRect().width;
+    const lastColumnIsNotTheFirst = selectable
+      ? tableHeadings.current.length > 2
+      : 1;
+    // Don't consider the last column in the calculations if it's not sticky
+    const lastStickyColumnWidth =
+      lastColumnSticky && lastColumnIsNotTheFirst
+        ? tableHeadings.current[
+            tableHeadings.current.length - 1
+          ].getBoundingClientRect().width
+        : 0;
+    // Secure some space for the remaining columns to be visible
+    const restOfContentMinWidth = 100;
+    setCanFitStickyColumn(
+      scrollableRect.width >
+        firstStickyColumnWidth +
+          checkboxColumnWidth +
+          lastStickyColumnWidth +
+          restOfContentMinWidth,
+    );
+  }, [lastColumnSticky, selectable]);
+
+  useEffect(() => {
+    if (tableInitialized) {
+      handleCanFitStickyColumn();
+    }
+  }, [handleCanFitStickyColumn, tableInitialized]);
+
   const handleResize = useCallback(() => {
     // hide the scrollbar when resizing
     scrollBarElement.current?.style.setProperty(
@@ -290,11 +341,13 @@ function IndexTableBase({
     debounceResizeTableScrollbar();
     handleCanScrollRight();
     handleIsSmallScreen();
+    handleCanFitStickyColumn();
   }, [
     resizeTableHeadings,
     debounceResizeTableScrollbar,
     handleCanScrollRight,
     handleIsSmallScreen,
+    handleCanFitStickyColumn,
   ]);
 
   const handleScrollContainerScroll = useCallback(
@@ -393,7 +446,7 @@ function IndexTableBase({
   const stickyColumnHeader = (
     <div
       className={styles.TableHeading}
-      key={headings[0].title}
+      key={getHeadingKey(headings[0])}
       style={stickyColumnHeaderStyle}
       data-index-table-sticky-heading
     >
@@ -608,8 +661,12 @@ function IndexTableBase({
     selectMode && styles.disableTextSelection,
     selectMode && shouldShowBulkActions && styles.selectMode,
     !selectable && styles['Table-unselectable'],
-    lastColumnSticky && styles['Table-sticky-last'],
-    lastColumnSticky && canScrollRight && styles['Table-sticky-scrolling'],
+    canFitStickyColumn && styles['Table-sticky'],
+    canFitStickyColumn && lastColumnSticky && styles['Table-sticky-last'],
+    canFitStickyColumn &&
+      lastColumnSticky &&
+      canScrollRight &&
+      styles['Table-sticky-scrolling'],
   );
 
   const emptyStateMarkup = emptyState ? (
@@ -699,7 +756,7 @@ function IndexTableBase({
     const headingContent = (
       <th
         className={headingContentClassName}
-        key={heading.title}
+        key={getHeadingKey(heading)}
         data-index-table-heading
         style={stickyPositioningStyle}
       >
@@ -836,7 +893,7 @@ function IndexTableBase({
     return (
       <div
         className={stickyHeadingClassName}
-        key={heading.title}
+        key={getHeadingKey(heading)}
         style={headingStyle}
         data-index-table-sticky-heading
       >
@@ -880,6 +937,18 @@ const isBreakpointsXS = () => {
     : window.innerWidth <
         parseFloat(toPx(tokens.breakpoints['breakpoints-sm']) ?? '');
 };
+
+function getHeadingKey(heading: IndexTableHeading): string {
+  if ('id' in heading && heading.id) {
+    return heading.id;
+  }
+
+  if (typeof heading.title === 'string') {
+    return heading.title;
+  }
+
+  return '';
+}
 
 export interface IndexTableProps
   extends IndexTableBaseProps,
