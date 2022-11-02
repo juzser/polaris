@@ -44,3 +44,17 @@ export const depth = {
 
 export type DepthTokenGroup = TokenGroup<typeof depth>;
 export type DepthTokenName = keyof DepthTokenGroup;
+
+export const depthShadowAlias = [
+  'base',
+  'transparent',
+  'faint',
+  'deep',
+  'button',
+  'top-bar',
+  'card',
+  'popover',
+  'layer',
+  'modal',
+] as const;
+export type DepthShadowAlias = typeof depthShadowAlias[number];

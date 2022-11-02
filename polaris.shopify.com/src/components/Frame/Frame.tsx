@@ -22,7 +22,7 @@ interface Props {
 
 const nav = navJSON as NavJSON;
 
-function Header({darkMode, children}: Props) {
+function Frame({darkMode, children}: Props) {
   const [showSkipToContentLink, setShowSkipToContentLink] = useState(true);
   const [navIsVisible, setNavIsVisible] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -107,9 +107,7 @@ function Header({darkMode, children}: Props) {
           ref={menuButtonRef}
           className={styles.NavToggle}
         >
-          <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path d="M19 11h-18a1 1 0 0 1 0-2h18a1 1 0 1 1 0 2zm0-7h-18a1 1 0 0 1 0-2h18a1 1 0 1 1 0 2zm0 14h-18a1 1 0 0 1 0-2h18a1 1 0 0 1 0 2z" />
-          </svg>
+          <NavToggleIcon />
         </button>
 
         <Link href="/">
@@ -298,4 +296,12 @@ function CloseIcon() {
   );
 }
 
-export default Header;
+function NavToggleIcon() {
+  return (
+    <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+      <path d="M19 11h-18a1 1 0 0 1 0-2h18a1 1 0 1 1 0 2zm0-7h-18a1 1 0 0 1 0-2h18a1 1 0 1 1 0 2zm0 14h-18a1 1 0 0 1 0-2h18a1 1 0 0 1 0 2z" />
+    </svg>
+  );
+}
+
+export default Frame;

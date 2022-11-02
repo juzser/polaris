@@ -1,25 +1,27 @@
-import type {FileInfo} from 'jscodeshift';
-import postcss, {Plugin} from 'postcss';
 import valueParser from 'postcss-value-parser';
 
-const plugin = (): Plugin => ({
-  postcssPlugin: '{{kebabCase migrationName}}',
-  Declaration(decl) {
-    // const prop = decl.prop;
-    const parsedValue = valueParser(decl.value);
+import {
+  isSassFunction,
+  StopWalkingFunctionNodes,
+  createSassMigrator,
+} from '../../utilities/sass';
 
-    parsedValue.walk((node) => {
-      if (!(node.type === 'function' && node.value === 'hello')) return;
+// options can be passed in from cli / config.
+export default createSassMigrator('{{kebabCase migrationName}}', (_, options, context) => {
+  return (root) => {
+    root.walkDecls((decl) => {
+      const parsedValue = valueParser(decl.value);
 
-      node.value = 'world';
+      parsedValue.walk((node) => {
+        if (isSassFunction('hello', node)) {
+          node.value = 'world';
+          return StopWalkingFunctionNodes;
+        }
+      });
+
+      if (context.fix) {
+        decl.value = parsedValue.toString();
+      }
     });
-
-    decl.value = parsedValue.toString();
-  },
+  };
 });
-
-export default function {{camelCase migrationName}}(fileInfo: FileInfo) {
-  return postcss(plugin()).process(fileInfo.source, {
-    syntax: require('postcss-scss'),
-  }).css;
-}

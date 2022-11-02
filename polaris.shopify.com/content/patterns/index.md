@@ -2,6 +2,8 @@
 title: Patterns
 description: Design patterns help ensure consistent behavior across the Shopify admin.
 icon: BehaviorMajor
-order: 5
+order: 6
 newSection: true
 ---
+
+![Design system building blocks, with pattern block highlighted.](/images/foundations/patterns/patterns@2x.png)
