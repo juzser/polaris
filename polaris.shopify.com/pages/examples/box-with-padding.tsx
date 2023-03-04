@@ -5,13 +5,13 @@ import {withPolarisExample} from '../../src/components/PolarisExampleWrapper';
 
 function BoxWithPaddingExample() {
   return (
-    <AlphaStack>
+    <AlphaStack gap="4">
       <div style={{backgroundColor: '#986BFF'}}>
         <Box padding="4" width="586px">
           <Placeholder label="All side padding" childAlign="center" />
         </Box>
       </div>
-      <Inline spacing="4">
+      <Inline gap="4">
         <div style={{backgroundColor: '#986BFF'}}>
           <Box paddingInlineStart="4" width="284px">
             <Placeholder label="PaddingLeft" childAlign="start" />
@@ -23,7 +23,7 @@ function BoxWithPaddingExample() {
           </Box>
         </div>
       </Inline>
-      <Inline spacing="4">
+      <Inline gap="4">
         <div style={{backgroundColor: '#986BFF'}}>
           <Box paddingBlockStart="4" width="284px">
             <Placeholder label="PaddingTop" childAlign="center" />
@@ -53,7 +53,7 @@ const Placeholder = ({
         width: width,
       }}
     >
-      <Inline align={childAlign}>
+      <Inline gap="4" align={childAlign}>
         <div
           style={{
             color: '#FFFFFF',

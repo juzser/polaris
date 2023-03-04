@@ -15,25 +15,40 @@ export const getStaticPropsForFoundations = (category: string) => {
     );
     const markdown = fs.readFileSync(markdownPath, 'utf-8');
     const {
-      frontMatter: {description},
+      frontMatter: {title, description, status, noIndex},
     }: MarkdownFile = parseMarkdown(markdown);
 
-    const filePattern = path.resolve(process.cwd(), `content/${category}/*.md`);
+    const globPath = [
+      path.resolve(process.cwd(), `content/${category}/*.md`),
+      path.resolve(process.cwd(), `content/${category}/*/index.md`),
+    ];
+
+    const itemPaths = globby
+      .sync(globPath)
+      .filter((path) => !path.endsWith(`content/${category}/index.md`));
 
     let items: FoundationsProps['items'] = [];
-    const markdownFilePaths = await globby(filePattern);
 
-    markdownFilePaths
-      .filter((path) => !path.endsWith(`index.md`))
+    itemPaths
+      .filter((path) => !path.endsWith(`content/${category}/index.md`))
       .forEach((markdownFilePath) => {
         if (fs.existsSync(markdownFilePath)) {
           const markdown = fs.readFileSync(markdownFilePath, 'utf-8');
           const {frontMatter, readme}: MarkdownFile = parseMarkdown(markdown);
-          const {title, description, order, icon} = frontMatter;
+          const {
+            title,
+            description,
+            order,
+            icon,
+            url: frontMatterUrl,
+          } = frontMatter;
 
-          const url = markdownFilePath
-            .replace(`${process.cwd()}/content`, '')
-            .replace(/\.md$/, '');
+          const url =
+            frontMatterUrl ??
+            markdownFilePath
+              .replace(`${process.cwd()}/content`, '')
+              .replace('/index', '')
+              .replace(/\.md$/, '');
 
           const headings = (readme.match(/\n## [^\n]+/gi) || []).map(
             (heading) => heading.replace(/^\n## /, '').trim(),
@@ -56,9 +71,12 @@ export const getStaticPropsForFoundations = (category: string) => {
 
     return {
       props: {
-        title: uppercaseFirst(category),
+        status: status || null,
+        title: title || uppercaseFirst(category),
         description: description || '',
         items,
+        // Cooerce `undefined` / `null` to `false`
+        noIndex: noIndex || false,
       },
     };
   };

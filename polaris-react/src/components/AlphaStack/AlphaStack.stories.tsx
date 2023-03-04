@@ -17,9 +17,9 @@ export function Default() {
   );
 }
 
-export function Spacing() {
+export function WithGap() {
   return (
-    <AlphaStack spacing="8">
+    <AlphaStack gap="8">
       <Badge>Paid</Badge>
       <Badge>Processing</Badge>
       <Badge>Fulfilled</Badge>
@@ -28,9 +28,9 @@ export function Spacing() {
   );
 }
 
-export function AlignCenter() {
+export function WithResponsiveGap() {
   return (
-    <AlphaStack align="center">
+    <AlphaStack gap={{xs: '4', md: '10'}}>
       <Badge>Paid</Badge>
       <Badge>Processing</Badge>
       <Badge>Fulfilled</Badge>
@@ -39,9 +39,9 @@ export function AlignCenter() {
   );
 }
 
-export function AlignEnd() {
+export function WithAlignCenter() {
   return (
-    <AlphaStack align="end">
+    <AlphaStack gap="4" align="center">
       <Badge>Paid</Badge>
       <Badge>Processing</Badge>
       <Badge>Fulfilled</Badge>
@@ -50,9 +50,9 @@ export function AlignEnd() {
   );
 }
 
-export function FullWidthChildren() {
+export function WithAlignEnd() {
   return (
-    <AlphaStack fullWidth>
+    <AlphaStack gap="4" align="end">
       <Badge>Paid</Badge>
       <Badge>Processing</Badge>
       <Badge>Fulfilled</Badge>
@@ -61,9 +61,9 @@ export function FullWidthChildren() {
   );
 }
 
-export function ResponsiveSpacing() {
+export function WithFullWidthChildren() {
   return (
-    <AlphaStack spacing={{xs: '4', md: '10'}}>
+    <AlphaStack gap="4" fullWidth>
       <Badge>Paid</Badge>
       <Badge>Processing</Badge>
       <Badge>Fulfilled</Badge>

@@ -174,7 +174,7 @@
       "showing": "Näytetään {itemsCount} {resource}",
       "loading": "Ladataan {resource}",
       "selected": "{selectedItemsCount} valittu",
-      "allItemsSelected": "Kaikki {itemsLength} ja {resourceNamePlural} kaupassasi on valittu.",
+      "allItemsSelected": "Kaikki {itemsLength} {resourceNamePlural} kaupassasi on valittu",
       "selectAllItems": "Valitse kaikki {itemsLength} ja {resourceNamePlural} kaupassasi",
       "emptySearchResultTitle": "{resourceNamePlural} ei löytynyt",
       "emptySearchResultDescription": "Yritä vaihtaa suodattimia tai hakusanaa",
@@ -183,8 +183,6 @@
       "a11yCheckboxSelectAllSingle": "Valitse {resourceNameSingular}",
       "a11yCheckboxDeselectAllMultiple": "Poista valinta kaikista {itemsLength} {resourceNamePlural}",
       "a11yCheckboxSelectAllMultiple": "Valitse kaikki {itemsLength} {resourceNamePlural}",
-      "ariaLiveSingular": "{itemsLength} tuote",
-      "ariaLivePlural": "{itemsLength} tuotetta",
       "Item": {
         "actionsDropdownLabel": "Kohdetta {accessibilityLabel} koskevat toimenpiteet",
         "actionsDropdown": "Toiminnat-pudotusvalikko",
@@ -196,7 +194,7 @@
         "warningMessage": "Paremman käyttäjäkokemuksen tarjoamiseksi. Mainostettavia toimintoja saa olla enintään {maxPromotedActions}."
       },
       "showingTotalCount": "Näytetään {itemsCount}/{totalItemsCount} {resource}",
-      "allFilteredItemsSelected": "Kaikki tämän suodattimen {itemsLength} ja {resourceNamePlural} on valittu.",
+      "allFilteredItemsSelected": "Kaikki tämän suodattimen {itemsLength} {resourceNamePlural} on valittu",
       "selectAllFilteredItems": "Valitse kaikki tämän suodattimen {itemsLength} ja {resourceNamePlural}"
     },
     "SkeletonPage": {
@@ -279,7 +277,7 @@
     "IndexProvider": {
       "defaultItemSingular": "Tuote",
       "defaultItemPlural": "Tuotteet",
-      "allItemsSelected": "Kaikki {itemsLength} ja {resourceNamePlural} on valittu.",
+      "allItemsSelected": "Kaikki {itemsLength}+ {resourceNamePlural} on valittu",
       "selected": "{selectedItemsCount} valittu",
       "a11yCheckboxDeselectAllSingle": "Poista valinta kohteesta {resourceNameSingular}",
       "a11yCheckboxSelectAllSingle": "Valitse {resourceNameSingular}",

@@ -11,7 +11,7 @@ function ColumnsWithSetNumberExample() {
           xs: '3fr 3fr',
           md: '4fr 2fr',
         }}
-        spacing={{
+        gap={{
           xs: '4',
           md: '2',
         }}
@@ -48,7 +48,7 @@ const Placeholder = ({label = '', height = 'auto', width = 'auto'}) => {
         width: width ?? undefined,
       }}
     >
-      <Inline align="center" blockAlign="center">
+      <Inline gap="4" align="center" blockAlign="center">
         <div
           style={{
             color: '#FFFFFF',

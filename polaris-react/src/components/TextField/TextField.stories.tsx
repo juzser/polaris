@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import type {ComponentMeta} from '@storybook/react';
 import {
   Button,
-  Card,
+  LegacyCard,
   ChoiceList,
   FormLayout,
   InlineError,
@@ -34,17 +34,28 @@ export function Default() {
 
 export function Number() {
   const [value, setValue] = useState('1');
+  const [value1, setValue1] = useState('1');
 
   const handleChange = useCallback((newValue) => setValue(newValue), []);
+  const handleChange1 = useCallback((newValue) => setValue1(newValue), []);
 
   return (
-    <TextField
-      label="Quantity"
-      type="number"
-      value={value}
-      onChange={handleChange}
-      autoComplete="off"
-    />
+    <Stack vertical>
+      <TextField
+        label="First Quantity"
+        type="number"
+        value={value}
+        onChange={handleChange}
+        autoComplete="off"
+      />
+      <TextField
+        label="Second Quantity"
+        type="number"
+        value={value1}
+        onChange={handleChange1}
+        autoComplete="off"
+      />
+    </Stack>
   );
 }
 
@@ -372,9 +383,9 @@ export function WithSeparateValidationError() {
   );
 
   return (
-    <Card sectioned>
+    <LegacyCard sectioned>
       <FormLayout>{formGroupMarkup}</FormLayout>
-    </Card>
+    </LegacyCard>
   );
 
   function isValueInvalid(content) {

@@ -174,7 +174,7 @@
       "showing": "Se muestran {itemsCount} {resource}",
       "loading": "Cargando {resource}",
       "selected": "Seleccionados: {selectedItemsCount}",
-      "allItemsSelected": "Los más de {itemsLength} recursos de {resourceNamePlural} de la tienda están seleccionados.",
+      "allItemsSelected": "Los más de {itemsLength} {resourceNamePlural} de la tienda están seleccionados.",
       "selectAllItems": "Seleccionar los más de {itemsLength} recursos de {resourceNamePlural} de la tienda",
       "emptySearchResultTitle": "No se encontró ningún recurso de {resourceNamePlural}",
       "emptySearchResultDescription": "Prueba a cambiar los filtros o el término de búsqueda",
@@ -183,8 +183,6 @@
       "a11yCheckboxSelectAllSingle": "Seleccionar {resourceNameSingular}",
       "a11yCheckboxDeselectAllMultiple": "Deseleccionar {itemsLength} {resourceNamePlural}",
       "a11yCheckboxSelectAllMultiple": "Seleccionar {itemsLength} {resourceNamePlural}",
-      "ariaLiveSingular": "{itemsLength} artículo",
-      "ariaLivePlural": "{itemsLength} artículos",
       "Item": {
         "actionsDropdownLabel": "Acciones para {accessibilityLabel}",
         "actionsDropdown": "Menú desplegable de acciones",
@@ -196,7 +194,7 @@
         "warningMessage": "Para ofrecer una mejor experiencia de usuario. Solo debe haber un máximo de {maxPromotedActions} acciones promocionadas."
       },
       "showingTotalCount": "Se muestran {itemsCount} de {totalItemsCount} {resource}",
-      "allFilteredItemsSelected": "Los más de {itemsLength} recursos de {resourceNamePlural} de este filtro están seleccionados.",
+      "allFilteredItemsSelected": "Los más de {itemsLength} {resourceNamePlural} de este filtro están seleccionados.",
       "selectAllFilteredItems": "Seleccionar los más de {itemsLength} recursos de {resourceNamePlural} de este filtro"
     },
     "SkeletonPage": {
@@ -280,7 +278,7 @@
     "IndexProvider": {
       "defaultItemSingular": "Artículo",
       "defaultItemPlural": "Artículos",
-      "allItemsSelected": "Hay más de {itemsLength} {resourceNamePlural} seleccionados.",
+      "allItemsSelected": "Los más de {itemsLength} {resourceNamePlural} están seleccionados.",
       "selected": "Seleccionados: {selectedItemsCount}",
       "a11yCheckboxDeselectAllSingle": "Deseleccionar {resourceNameSingular}",
       "a11yCheckboxSelectAllSingle": "Seleccionar {resourceNameSingular}",

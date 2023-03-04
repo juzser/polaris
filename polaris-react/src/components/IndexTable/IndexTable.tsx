@@ -1,9 +1,5 @@
 import React, {useRef, useState, useEffect, useCallback, useMemo} from 'react';
-import {
-  EnableSelectionMinor,
-  SortAscendingMajor,
-  SortDescendingMajor,
-} from '@shopify/polaris-icons';
+import {SortAscendingMajor, SortDescendingMajor} from '@shopify/polaris-icons';
 import {CSSTransition} from 'react-transition-group';
 import {tokens, toPx, motion} from '@shopify/polaris-tokens';
 
@@ -15,14 +11,18 @@ import {Checkbox as PolarisCheckbox} from '../Checkbox';
 import {EmptySearchResult} from '../EmptySearchResult';
 // eslint-disable-next-line import/no-deprecated
 import {EventListener} from '../EventListener';
+import {SelectAllActions} from '../SelectAllActions';
 import {Stack} from '../Stack';
 import {Sticky} from '../Sticky';
 import {Spinner} from '../Spinner';
 import {Text} from '../Text';
-import {Button} from '../Button';
 import {Tooltip} from '../Tooltip';
 import {UnstyledButton} from '../UnstyledButton';
-import {BulkActions, BulkActionsProps} from '../BulkActions';
+import {
+  BulkActions,
+  BulkActionsProps,
+  useIsBulkActionsSticky,
+} from '../BulkActions';
 import {classNames} from '../../utilities/css';
 import {
   useIndexValue,
@@ -34,6 +34,12 @@ import {
 import {AfterInitialMount} from '../AfterInitialMount';
 import {IndexProvider} from '../IndexProvider';
 import type {NonEmptyArray} from '../../types';
+import type {
+  BorderRadius,
+  Padding,
+  Width,
+  TooltipOverlayProps,
+} from '../Tooltip';
 
 import {getTableHeadingsBySelector} from './utilities';
 import {ScrollContainer, Cell, Row} from './components';
@@ -43,6 +49,9 @@ interface IndexTableHeadingBase {
   flush?: boolean;
   new?: boolean;
   hidden?: boolean;
+  tooltipContent?: React.ReactNode;
+  tooltipWidth?: Width;
+  tooltipPersistsOnClick?: boolean;
 }
 
 interface IndexTableHeadingTitleString extends IndexTableHeadingBase {
@@ -81,7 +90,7 @@ export interface IndexTableBaseProps {
   /** List of booleans, which maps to whether sorting is enabled or not for each column. Defaults to false for all columns.  */
   sortable?: boolean[];
   /**
-   * The direction to sort the table rows on first click or keypress of a sortable column heading. Defaults to ascending.
+   * The direction to sort the table rows on first click or keypress of a sortable column heading. Defaults to descending.
    * @default 'descending'
    */
   defaultSortDirection?: IndexTableSortDirection;
@@ -148,13 +157,12 @@ function IndexTableBase({
   const scrollableContainerElement = useRef<HTMLDivElement>(null);
   const tableElement = useRef<HTMLTableElement>(null);
   const condensedListElement = useRef<HTMLUListElement>(null);
+  const loadingElement = useRef<HTMLDivElement>(null);
 
   const [tableInitialized, setTableInitialized] = useState(false);
-  const [isSmallScreenSelectable, setIsSmallScreenSelectable] = useState(false);
   const [stickyWrapper, setStickyWrapper] = useState<HTMLElement | null>(null);
   const [hideScrollContainer, setHideScrollContainer] =
     useState<boolean>(false);
-  const [smallScreen, setSmallScreen] = useState(isBreakpointsXS());
 
   const tableHeadings = useRef<HTMLElement[]>([]);
   const stickyTableHeadings = useRef<HTMLElement[]>([]);
@@ -165,6 +173,19 @@ function IndexTableBase({
   const scrollContainerElement = useRef<HTMLDivElement>(null);
   const scrollingWithBar = useRef(false);
   const scrollingContainer = useRef(false);
+  const {
+    bulkActionsIntersectionRef,
+    tableMeasurerRef,
+    isBulkActionsSticky,
+    bulkActionsAbsoluteOffset,
+    bulkActionsMaxWidth,
+    bulkActionsOffsetLeft,
+    computeTableDimensions,
+  } = useIsBulkActionsSticky(selectMode);
+
+  useEffect(() => {
+    computeTableDimensions();
+  }, [computeTableDimensions, itemCount]);
 
   const tableBodyRef = useCallback(
     (node: Element | null) => {
@@ -174,10 +195,6 @@ function IndexTableBase({
     },
     [tableInitialized],
   );
-
-  const toggleIsSmallScreenSelectable = useCallback(() => {
-    setIsSmallScreenSelectable((value) => !value);
-  }, []);
 
   const handleSelectAllItemsInStore = useCallback(() => {
     handleSelectionChange(
@@ -298,10 +315,6 @@ function IndexTableBase({
     handleCanScrollRight();
   }, [handleCanScrollRight]);
 
-  const handleIsSmallScreen = useCallback(() => {
-    setSmallScreen(isBreakpointsXS());
-  }, []);
-
   const [canFitStickyColumn, setCanFitStickyColumn] = useState(true);
 
   const handleCanFitStickyColumn = useCallback(() => {
@@ -352,13 +365,11 @@ function IndexTableBase({
     resizeTableHeadings();
     debounceResizeTableScrollbar();
     handleCanScrollRight();
-    handleIsSmallScreen();
     handleCanFitStickyColumn();
   }, [
     resizeTableHeadings,
     debounceResizeTableScrollbar,
     handleCanScrollRight,
-    handleIsSmallScreen,
     handleCanFitStickyColumn,
   ]);
 
@@ -428,12 +439,6 @@ function IndexTableBase({
       condensed ? condensedListElement.current : tableElement.current,
     );
   }, [tableInitialized, resizeTableScrollBar, condensed]);
-
-  useEffect(() => {
-    if (!condensed && isSmallScreenSelectable) {
-      setIsSmallScreenSelectable(false);
-    }
-  }, [condensed, isSmallScreenSelectable]);
 
   const hasBulkActions = Boolean(
     (promotedBulkActions && promotedBulkActions.length > 0) ||
@@ -517,10 +522,11 @@ function IndexTableBase({
       in={loading}
       classNames={loadingTransitionClassNames}
       timeout={parseInt(motion['duration-100'], 10)}
+      nodeRef={loadingElement}
       appear
       unmountOnExit
     >
-      <div className={styles.LoadingPanel}>
+      <div className={styles.LoadingPanel} ref={loadingElement}>
         <div className={styles.LoadingPanelRow}>
           <Spinner size="small" />
           <span className={styles.LoadingPanelText}>
@@ -541,8 +547,41 @@ function IndexTableBase({
     condensed && styles['StickyTable-condensed'],
   );
 
-  const shouldShowBulkActions =
-    (bulkActionsSelectable && selectedItemsCount) || isSmallScreenSelectable;
+  const shouldShowBulkActions = bulkActionsSelectable && selectedItemsCount;
+
+  const bulkActionClassNames = classNames(
+    styles.BulkActionsWrapper,
+    isBulkActionsSticky && styles.BulkActionsWrapperSticky,
+  );
+
+  const shouldShowActions = !condensed || selectedItemsCount;
+  const promotedActions = shouldShowActions ? promotedBulkActions : [];
+  const actions = shouldShowActions ? bulkActions : [];
+
+  const bulkActionsMarkup =
+    shouldShowBulkActions && !condensed ? (
+      <div
+        className={bulkActionClassNames}
+        style={{
+          insetBlockStart: isBulkActionsSticky
+            ? undefined
+            : bulkActionsAbsoluteOffset,
+          width: bulkActionsMaxWidth,
+          insetInlineStart: isBulkActionsSticky
+            ? bulkActionsOffsetLeft
+            : undefined,
+        }}
+      >
+        <BulkActions
+          selectMode={selectMode}
+          promotedActions={promotedActions}
+          actions={actions}
+          onSelectModeToggle={condensed ? handleSelectModeToggle : undefined}
+          isSticky={isBulkActionsSticky}
+          width={bulkActionsMaxWidth}
+        />
+      </div>
+    ) : null;
 
   const stickyHeaderMarkup = (
     <div className={stickyTableClassNames} role="presentation">
@@ -553,63 +592,39 @@ function IndexTableBase({
             isSticky && styles['StickyTableHeader-isSticky'],
           );
 
-          const bulkActionClassNames = classNames(
-            styles.BulkActionsWrapper,
+          const selectAllActionsClassName = classNames(
+            styles.SelectAllActionsWrapper,
             condensed && styles['StickyTableHeader-condensed'],
             isSticky && styles['StickyTableHeader-isSticky'],
           );
 
-          const shouldShowActions = !condensed || selectedItemsCount;
-          const promotedActions = shouldShowActions ? promotedBulkActions : [];
-          const actions = shouldShowActions ? bulkActions : [];
-
-          const bulkActionsMarkup = shouldShowBulkActions ? (
-            <div className={bulkActionClassNames} data-condensed={condensed}>
-              {loadingMarkup}
-              <BulkActions
-                smallScreen={smallScreen}
-                label={i18n.translate('Polaris.IndexTable.selected', {
-                  selectedItemsCount: selectedItemsCountLabel,
-                })}
-                accessibilityLabel={bulkActionsAccessibilityLabel}
-                selected={bulkSelectState}
-                selectMode={selectMode || isSmallScreenSelectable}
-                onToggleAll={handleTogglePage}
-                promotedActions={promotedActions}
-                actions={actions}
-                paginatedSelectAllText={paginatedSelectAllText}
-                paginatedSelectAllAction={paginatedSelectAllAction}
-                onSelectModeToggle={
-                  condensed ? handleSelectModeToggle : undefined
-                }
-              />
-            </div>
-          ) : null;
-
-          const stickyColumnHeaderClassNames = classNames(
-            styles.StickyTableColumnHeader,
-            hasMoreLeftColumns && styles['StickyTableColumnHeader-isScrolling'],
-          );
-
-          const selectButtonMarkup = (
-            <Button
-              icon={EnableSelectionMinor}
-              onClick={toggleIsSmallScreenSelectable}
-            >
-              {i18n.translate('Polaris.IndexTable.selectButtonText')}
-            </Button>
-          );
+          const selectAllActionsMarkup =
+            shouldShowBulkActions && !condensed ? (
+              <div className={selectAllActionsClassName}>
+                <SelectAllActions
+                  label={i18n.translate('Polaris.IndexTable.selected', {
+                    selectedItemsCount: selectedItemsCountLabel,
+                  })}
+                  accessibilityLabel={bulkActionsAccessibilityLabel}
+                  selected={bulkSelectState}
+                  selectMode={selectMode}
+                  onToggleAll={handleTogglePage}
+                  paginatedSelectAllText={paginatedSelectAllText}
+                  paginatedSelectAllAction={paginatedSelectAllAction}
+                />
+                {loadingMarkup}
+              </div>
+            ) : null;
 
           const headerMarkup = condensed ? (
             <div
               className={classNames(
                 styles.HeaderWrapper,
-                !selectable && styles.unselectable,
+                (!selectable || condensed) && styles.unselectable,
               )}
             >
               {loadingMarkup}
               {sort}
-              {selectable && selectButtonMarkup}
             </div>
           ) : (
             <div
@@ -617,7 +632,7 @@ function IndexTableBase({
               ref={stickyHeaderWrapperElement}
             >
               {loadingMarkup}
-              <div className={stickyColumnHeaderClassNames}>
+              <div className={styles.StickyTableColumnHeader}>
                 {stickyColumnHeader}
               </div>
               <div
@@ -629,13 +644,12 @@ function IndexTableBase({
             </div>
           );
 
-          const stickyContent = bulkActionsMarkup
-            ? bulkActionsMarkup
-            : headerMarkup;
+          const stickyContent = selectAllActionsMarkup ?? headerMarkup;
 
           return stickyContent;
         }}
       </Sticky>
+      {bulkActionsMarkup}
     </div>
   );
 
@@ -707,7 +721,7 @@ function IndexTableBase({
     <>
       {sharedMarkup}
       <ul
-        data-selectmode={Boolean(selectMode || isSmallScreenSelectable)}
+        data-selectmode={Boolean(selectMode)}
         className={styles.CondensedList}
         ref={condensedListElement}
       >
@@ -737,11 +751,21 @@ function IndexTableBase({
       <div className={styles.EmptySearchResultWrapper}>{emptyStateMarkup}</div>
     );
 
+  const tableWrapperClassNames = classNames(
+    styles.IndexTableWrapper,
+    Boolean(bulkActionsMarkup) &&
+      selectMode &&
+      styles.IndexTableWrapperWithBulkActions,
+  );
+
   return (
     <>
       <div className={styles.IndexTable}>
-        {!shouldShowBulkActions && !condensed && loadingMarkup}
-        {tableContentMarkup}
+        <div className={tableWrapperClassNames} ref={tableMeasurerRef}>
+          {!shouldShowBulkActions && !condensed && loadingMarkup}
+          {tableContentMarkup}
+        </div>
+        <div ref={bulkActionsIntersectionRef} />
       </div>
       {scrollBarMarkup}
     </>
@@ -827,6 +851,21 @@ function IndexTableBase({
   function renderHeadingContent(heading: IndexTableHeading, index: number) {
     let headingContent;
 
+    const defaultTooltipProps = {
+      width: heading.tooltipWidth ?? 'default',
+      activatorWrapper: 'div',
+      dismissOnMouseOut: true,
+      persistOnClick: heading.tooltipPersistsOnClick,
+    };
+
+    const defaultHeaderTooltipProps = {
+      ...defaultTooltipProps,
+      padding: '4' as Padding,
+      borderRadius: '2' as BorderRadius,
+      content: heading.tooltipContent,
+      preferredPosition: 'above' as TooltipOverlayProps['preferredPosition'],
+    };
+
     if (heading.new) {
       headingContent = (
         <Stack wrap={false} alignment="center">
@@ -876,29 +915,91 @@ function IndexTableBase({
         </span>
       );
 
-      const sortMarkup = (
-        <UnstyledButton
-          onClick={() => handleSortHeadingClick(index, newDirection)}
-          className={styles.TableHeadingSortButton}
-        >
-          {iconMarkup}
+      const defaultSortButtonProps = {
+        onClick: () => handleSortHeadingClick(index, newDirection),
+        className: styles.TableHeadingSortButton,
+        tabIndex: selectMode ? -1 : 0,
+      };
 
-          {headingContent}
+      const sortMarkup = (
+        <UnstyledButton {...defaultSortButtonProps}>
+          {iconMarkup}
+          <span
+            className={classNames(
+              sortToggleLabels &&
+                selectMode &&
+                heading.tooltipContent &&
+                styles.TableHeadingTooltipUnderlinePlaceholder,
+            )}
+          >
+            {headingContent}
+          </span>
         </UnstyledButton>
       );
 
-      if (!sortToggleLabels) {
-        return sortMarkup;
+      if (!sortToggleLabels || selectMode) {
+        return (
+          <div className={styles.SortableTableHeadingWithCustomMarkup}>
+            {sortMarkup}
+          </div>
+        );
       }
 
       const tooltipDirection = isCurrentlySorted
         ? sortDirection!
         : defaultSortDirection;
 
-      const tooltipContent = sortToggleLabels[index][tooltipDirection];
+      const sortTooltipContent = sortToggleLabels[index][tooltipDirection];
 
-      return <Tooltip content={tooltipContent}>{sortMarkup}</Tooltip>;
+      if (!heading.tooltipContent) {
+        return (
+          // Regular header with sort icon and sort direction tooltip
+          <Tooltip {...defaultTooltipProps} content={sortTooltipContent}>
+            {sortMarkup}
+          </Tooltip>
+        );
+      }
+
+      if (heading.tooltipContent) {
+        return (
+          // Header text and sort icon have separate tooltips
+          <div className={styles.SortableTableHeadingWithCustomMarkup}>
+            <UnstyledButton {...defaultSortButtonProps}>
+              <Tooltip {...defaultHeaderTooltipProps}>
+                <span className={styles.TableHeadingUnderline}>
+                  {headingContent}
+                </span>
+              </Tooltip>
+
+              <Tooltip
+                {...defaultTooltipProps}
+                content={sortTooltipContent}
+                preferredPosition="above"
+              >
+                {iconMarkup}
+              </Tooltip>
+            </UnstyledButton>
+          </div>
+        );
+      }
     }
+
+    if (heading.tooltipContent) {
+      return (
+        // Non-sortable header with tooltip
+        <Tooltip {...defaultHeaderTooltipProps} activatorWrapper="span">
+          <span
+            className={classNames(
+              styles.TableHeadingUnderline,
+              styles.SortableTableHeaderWrapper,
+            )}
+          >
+            {headingContent}
+          </span>
+        </Tooltip>
+      );
+    }
+
     return headingContent;
   }
 
@@ -955,9 +1056,8 @@ function IndexTableBase({
     };
   }
 
-  function handleSelectModeToggle(val: boolean) {
+  function handleSelectModeToggle() {
     handleSelectionChange(SelectionType.All, false);
-    setIsSmallScreenSelectable(val);
   }
 }
 

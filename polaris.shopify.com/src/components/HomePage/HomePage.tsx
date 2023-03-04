@@ -12,7 +12,7 @@ function HomePage({}: Props) {
   const useMotion = useMedia('(prefers-reduced-motion: no-preference)');
 
   return (
-    <Page showTOC={false}>
+    <Page>
       <div className={styles.HomePage}>
         <PageMeta description="A starter kit for reimagining commerce." />
 
@@ -93,9 +93,7 @@ function HomePage({}: Props) {
                 Autocompletion for Polaris tokens, right inside your favorite
                 code editor
               </p>
-              <Link href="https://marketplace.visualstudio.com/items?itemName=Shopify.polaris-for-vscode">
-                Install
-              </Link>
+              <Link href="/tools/polaris-for-vscode">Install</Link>
             </div>
             <div className={styles.Image}>
               {useMotion ? (

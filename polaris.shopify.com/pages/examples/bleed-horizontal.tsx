@@ -6,7 +6,7 @@ import {withPolarisExample} from '../../src/components/PolarisExampleWrapper';
 function BleedHorizontalExample() {
   return (
     <Box background="surface" border="base" padding="4">
-      <Bleed horizontal="4">
+      <Bleed marginInline="4">
         <Placeholder label="Horizontal" />
       </Bleed>
     </Box>
@@ -23,7 +23,7 @@ const Placeholder = ({label = '', height = 'auto', width = 'auto'}) => {
         width: width,
       }}
     >
-      <Inline align="center">
+      <Inline gap="4" align="center">
         <div
           style={{
             color: '#FFFFFF',

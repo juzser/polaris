@@ -5,8 +5,8 @@ import {withPolarisExample} from '../../src/components/PolarisExampleWrapper';
 
 function BleedAllDirectionsExample() {
   return (
-    <Box background="surface" border="base" padding="4">
-      <Bleed spacing="4">
+    <Box background="surface" border="base" padding="5">
+      <Bleed marginBlock="5">
         <Placeholder label="All directions" />
       </Bleed>
     </Box>
@@ -23,7 +23,7 @@ const Placeholder = ({label = '', height = 'auto', width = 'auto'}) => {
         width: width,
       }}
     >
-      <Inline align="center">
+      <Inline gap="4" align="center">
         <div
           style={{
             color: '#FFFFFF',

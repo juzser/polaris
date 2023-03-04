@@ -1,6 +1,9 @@
 import React from 'react';
 import type {SpacingSpaceScale} from '@shopify/polaris-tokens';
 
+import {getResponsiveProps} from '../../utilities/css';
+import type {ResponsiveProp} from '../../utilities/css';
+
 import styles from './Inline.scss';
 
 type Align =
@@ -12,31 +15,34 @@ type Align =
   | 'space-evenly';
 type BlockAlign = 'start' | 'center' | 'end' | 'baseline' | 'stretch';
 
+type Gap = ResponsiveProp<SpacingSpaceScale>;
+
 export interface InlineProps {
-  /** Adjust horizontal alignment of elements
+  children?: React.ReactNode;
+  /** Horizontal alignment of children
    * @default 'start'
    */
   align?: Align;
-  /** Adjust vertical alignment of elements
+  /** Vertical alignment of children
    * @default 'center'
    */
   blockAlign?: BlockAlign;
-  /** The spacing between elements
-   * @default '4'
+  /** The spacing between elements. Accepts a spacing token or an object of spacing tokens for different screen sizes.
+   * @example
+   * gap='2'
+   * gap={{xs: '2', sm: '3', md: '4', lg: '5', xl: '6'}}
    */
-  spacing?: SpacingSpaceScale;
+  gap?: Gap;
   /** Wrap stack elements to additional rows as needed on small screens
    * @default true
    */
   wrap?: boolean;
-  /** Elements to display inside stack */
-  children?: React.ReactNode;
 }
 
 export const Inline = function Inline({
   align = 'start',
   blockAlign = 'center',
-  spacing = '4',
+  gap,
   wrap = true,
   children,
 }: InlineProps) {
@@ -44,7 +50,7 @@ export const Inline = function Inline({
     '--pc-inline-align': align,
     '--pc-inline-block-align': blockAlign,
     '--pc-inline-wrap': wrap ? 'wrap' : 'nowrap',
-    '--pc-inline-spacing': `var(--p-space-${spacing})`,
+    ...getResponsiveProps('inline', 'gap', 'space', gap),
   } as React.CSSProperties;
 
   return (

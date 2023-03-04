@@ -128,9 +128,6 @@ export type {ComboboxProps} from './components/Combobox';
 export {Connected} from './components/Connected';
 export type {ConnectedProps} from './components/Connected';
 
-export {ContentBlock} from './components/ContentBlock';
-export type {ContentBlockProps} from './components/ContentBlock';
-
 export {ContextualSaveBar} from './components/ContextualSaveBar';
 export type {ContextualSaveBarProps} from './components/ContextualSaveBar';
 
@@ -151,6 +148,9 @@ export type {DescriptionListProps} from './components/DescriptionList';
 
 export {DisplayText} from './components/DisplayText';
 export type {DisplayTextProps} from './components/DisplayText';
+
+export {Divider} from './components/Divider';
+export type {DividerProps} from './components/Divider';
 
 export {DropZone} from './components/DropZone';
 export type {DropZoneProps} from './components/DropZone';
@@ -241,6 +241,17 @@ export type {LabelledProps} from './components/Labelled';
 export {Layout} from './components/Layout';
 export type {LayoutProps} from './components/Layout';
 
+export {LegacyCard} from './components/LegacyCard';
+export type {
+  LegacyCardProps,
+  LegacyCardSectionProps,
+  LegacyCardHeaderProps,
+  LegacyCardSubsectionProps,
+} from './components/LegacyCard';
+
+export {LegacyStack} from './components/LegacyStack';
+export type {LegacyStackProps} from './components/LegacyStack';
+
 export {Link} from './components/Link';
 export type {LinkProps} from './components/Link';
 
@@ -319,6 +330,9 @@ export {ScrollLock} from './components/ScrollLock';
 export {Select} from './components/Select';
 export type {SelectProps, SelectOption, SelectGroup} from './components/Select';
 
+export {SelectAllActions} from './components/SelectAllActions';
+export type {SelectAllActionsProps} from './components/SelectAllActions';
+
 export {SettingToggle} from './components/SettingToggle';
 export type {SettingToggleProps} from './components/SettingToggle';
 
@@ -374,9 +388,6 @@ export type {TextStyleProps} from './components/TextStyle';
 
 export {Thumbnail} from './components/Thumbnail';
 export type {ThumbnailProps} from './components/Thumbnail';
-
-export {Tiles} from './components/Tiles';
-export type {TilesProps} from './components/Tiles';
 
 export {Toast} from './components/Toast';
 export type {ToastProps} from './components/Toast';

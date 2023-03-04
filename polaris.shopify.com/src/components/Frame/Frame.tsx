@@ -28,6 +28,9 @@ function Frame({darkMode, children}: Props) {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const {asPath} = useRouter();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => setIsMounted(true), []);
 
   useEffect(() => {
     const mainContent = document.querySelector('#main');
@@ -120,13 +123,15 @@ function Frame({darkMode, children}: Props) {
           Polaris
         </Link>
 
-        <button className={styles.DarkModeToggle} onClick={darkMode.toggle}>
-          {darkMode.value ? (
-            <div className={styles.LightModeIcon}>💡</div>
-          ) : (
-            <div className={styles.DarkModeIcon}>🌙</div>
-          )}
-        </button>
+        {isMounted && (
+          <button className={styles.DarkModeToggle} onClick={darkMode.toggle}>
+            {darkMode.value ? (
+              <span className={styles.LightModeIcon}>💡</span>
+            ) : (
+              <span className={styles.DarkModeIcon}>🌙</span>
+            )}
+          </button>
+        )}
 
         <GlobalSearch />
       </div>
@@ -189,7 +194,9 @@ function NavItem({
   return (
     <>
       {nav.children &&
+        !nav.hideFromNav &&
         Object.entries(nav.children)
+          .filter(([, child]) => !child.hideFromNav)
           .sort((_a, _b) => {
             const [, a] = _a as [string, NavItem];
             const [, b] = _b as [string, NavItem];
@@ -214,10 +221,11 @@ function NavItem({
             const segments = asPath.slice(1).split('/');
             const keyAndLevelMatchUrl = !!(segments[level] === key);
             const manuallyExpandedStatus = manuallyExpandedSections[key];
-            const isExpanded =
-              manuallyExpandedStatus === undefined
-                ? keyAndLevelMatchUrl
-                : manuallyExpandedStatus;
+            const isExpanded = child.expanded
+              ? child.expanded
+              : manuallyExpandedStatus === undefined
+              ? keyAndLevelMatchUrl
+              : manuallyExpandedStatus;
 
             const removeParams = (path: string) => path.replace(/\?.+$/gi, '');
             const isCurrent = removeParams(asPath) === child.slug;
@@ -248,14 +256,14 @@ function NavItem({
                     {child.status && <StatusBadge status={child.status} />}
                   </Link>
 
-                  {isExpandable && (
+                  {isExpandable && !child.expanded && (
                     <button
                       className={styles.Toggle}
                       onClick={() => manuallyToggleSection(key, !isExpanded)}
                       aria-label="Toggle section"
                       aria-expanded={isExpanded}
                       aria-controls={isExpanded ? navAriaId : undefined}
-                    ></button>
+                    />
                   )}
                 </span>
 

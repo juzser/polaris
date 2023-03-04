@@ -175,8 +175,8 @@
       "showingTotalCount": "Đang hiển thị {itemsCount}/{totalItemsCount} {resource}",
       "loading": "Đang tải {resource}",
       "selected": "Đã chọn {selectedItemsCount}",
-      "allItemsSelected": "Đã chọn tất cả {itemsLength}+ {resourceNamePlural} trong cửa hàng của bạn.",
-      "allFilteredItemsSelected": "Đã chọn tất cả {itemsLength}+ {resourceNamePlural} trong bộ lọc này.",
+      "allItemsSelected": "Đã chọn tất cả {itemsLength}+ {resourceNamePlural} trong cửa hàng của bạn",
+      "allFilteredItemsSelected": "Đã chọn tất cả {itemsLength}+ {resourceNamePlural} trong bộ lọc này",
       "selectAllItems": "Chọn tất cả {itemsLength}+ {resourceNamePlural} trong cửa hàng của bạn",
       "selectAllFilteredItems": "Chọn tất cả {itemsLength}+ {resourceNamePlural} trong bộ lọc này",
       "emptySearchResultTitle": "Không tìm thấy {resourceNamePlural} nào",
@@ -186,8 +186,6 @@
       "a11yCheckboxSelectAllSingle": "Chọn {resourceNameSingular}",
       "a11yCheckboxDeselectAllMultiple": "Bỏ chọn tất cả {itemsLength} {resourceNamePlural}",
       "a11yCheckboxSelectAllMultiple": "Chọn tất cả {itemsLength} {resourceNamePlural}",
-      "ariaLiveSingular": "{itemsLength} mặt hàng",
-      "ariaLivePlural": "{itemsLength} mặt hàng",
       "Item": {
         "actionsDropdownLabel": "Thao tác đối với {accessibilityLabel}",
         "actionsDropdown": "Menu thả xuống các thao tác",
@@ -279,7 +277,7 @@
     "IndexProvider": {
       "defaultItemSingular": "Mặt hàng",
       "defaultItemPlural": "Mặt hàng",
-      "allItemsSelected": "Đã chọn tất cả {itemsLength}+ {resourceNamePlural}.",
+      "allItemsSelected": "Đã chọn tất cả {itemsLength}+ {resourceNamePlural}",
       "selected": "Đã chọn {selectedItemsCount}",
       "a11yCheckboxDeselectAllSingle": "Bỏ chọn {resourceNameSingular}",
       "a11yCheckboxSelectAllSingle": "Chọn {resourceNameSingular}",

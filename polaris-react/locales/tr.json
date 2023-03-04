@@ -174,7 +174,7 @@
       "showing": "{itemsCount} {resource} gösteriliyor",
       "loading": "{resource} yükleniyor",
       "selected": "{selectedItemsCount} adet seçildi",
-      "allItemsSelected": "Mağazanızdaki şu kaynakların tümü seçildi: {itemsLength}+ {resourceNamePlural}.",
+      "allItemsSelected": "Mağazanızdaki {itemsLength}+ {resourceNamePlural} tümü seçildi",
       "selectAllItems": "Mağazanızdaki şu kaynakların tümünü seçin: {itemsLength}+ {resourceNamePlural}",
       "emptySearchResultTitle": "{resourceNamePlural} bulunamadı",
       "emptySearchResultDescription": "Filtreleri veya arama terimini değiştirmeyi deneyin",
@@ -183,8 +183,6 @@
       "a11yCheckboxSelectAllSingle": "{resourceNameSingular} kaynağını seç",
       "a11yCheckboxDeselectAllMultiple": "Şunların tümünün seçimini kaldır: {itemsLength} {resourceNamePlural}",
       "a11yCheckboxSelectAllMultiple": "Şunların tümünü seç: {itemsLength} {resourceNamePlural}",
-      "ariaLiveSingular": "{itemsLength} ürün",
-      "ariaLivePlural": "{itemsLength} ürün",
       "Item": {
         "actionsDropdownLabel": "{accessibilityLabel} ile ilgili işlemler",
         "actionsDropdown": "İşlemler açılır listesi",
@@ -196,7 +194,7 @@
         "warningMessage": "Daha iyi bir kullanıcı deneyimi sunmak için. Öne çıkarılan işlemlerin sayısı en fazla {maxPromotedActions} olmalıdır."
       },
       "showingTotalCount": "{totalItemsCount} {resource} içinden {itemsCount} tanesi gösteriliyor",
-      "allFilteredItemsSelected": "Mevcut filtreyle gösterilen şu kaynakların tümü seçildi: {itemsLength}+ {resourceNamePlural}.",
+      "allFilteredItemsSelected": "Bu filtredeki {itemsLength}+ {resourceNamePlural} tümü seçildi",
       "selectAllFilteredItems": "Mevcut filtreyle gösterilen şu kaynakların tümünü seçin: {itemsLength}+ {resourceNamePlural}"
     },
     "SkeletonPage": {
@@ -279,7 +277,7 @@
     "IndexProvider": {
       "defaultItemSingular": "Ürün",
       "defaultItemPlural": "Ürünler",
-      "allItemsSelected": "Şunların tümü seçildi: {itemsLength}+ {resourceNamePlural}.",
+      "allItemsSelected": "{itemsLength}+ {resourceNamePlural} tümü seçildi.",
       "selected": "{selectedItemsCount} adet seçildi",
       "a11yCheckboxDeselectAllSingle": "{resourceNameSingular} kaynağının seçimini kaldır",
       "a11yCheckboxSelectAllSingle": "{resourceNameSingular} kaynağını seç",

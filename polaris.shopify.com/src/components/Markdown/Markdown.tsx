@@ -6,14 +6,30 @@ import {slugify} from '../../utils/various';
 import Code from '../Code';
 
 interface Props {
-  text: string;
+  children: string;
+  components?: React.ComponentProps<typeof ReactMarkdown>['components'];
+  remarkPlugins?: React.ComponentProps<typeof ReactMarkdown>['remarkPlugins'];
+  rehypePlugins?: React.ComponentProps<typeof ReactMarkdown>['rehypePlugins'];
+  remarkRehypeOptions?: React.ComponentProps<
+    typeof ReactMarkdown
+  >['remarkRehypeOptions'];
 }
 
-function Markdown({text}: Props) {
+function Markdown({
+  children: text,
+  components,
+  remarkPlugins,
+  rehypePlugins,
+  remarkRehypeOptions,
+}: Props) {
   return (
     <ReactMarkdown
-      remarkPlugins={[[remarkGfm, {tablePipeAlign: true}]]}
-      rehypePlugins={[rehypeRaw]}
+      remarkPlugins={[
+        [remarkGfm, {tablePipeAlign: true}],
+        ...(remarkPlugins ?? []),
+      ]}
+      rehypePlugins={[rehypeRaw, ...(rehypePlugins ?? [])]}
+      remarkRehypeOptions={remarkRehypeOptions}
       components={{
         h1: ({children}) => {
           return <h1>{children}</h1>;
@@ -32,17 +48,20 @@ function Markdown({text}: Props) {
             return <h3>{children}</h3>;
           }
         },
-        code: ({inline, children}) =>
+        code: ({inline, children, className}) =>
           inline ? (
             <code>{children}</code>
           ) : (
-            <Code code={{title: 'Example', code: children.toString()}} />
+            <Code
+              code={{className, title: 'Example', code: children.toString()}}
+            />
           ),
         table: ({children}) => (
           <div className="table-wrapper">
             <table>{children}</table>
           </div>
         ),
+        ...components,
       }}
     >
       {text}

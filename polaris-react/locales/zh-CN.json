@@ -174,7 +174,7 @@
       "showing": "显示 {itemsCount} 个 {resource}",
       "loading": "正在加载 {resource}",
       "selected": "已选择 {selectedItemsCount} 个",
-      "allItemsSelected": "已选择您商店中所有 {itemsLength}+ 个 {resourceNamePlural}。",
+      "allItemsSelected": "已选择您商店中所有 {itemsLength}+ 个{resourceNamePlural}。",
       "selectAllItems": "选择商店中所有 {itemsLength}+ 个 {resourceNamePlural}",
       "emptySearchResultTitle": "找不到 {resourceNamePlural}",
       "emptySearchResultDescription": "请尝试更改筛选条件或搜索词",
@@ -183,8 +183,6 @@
       "a11yCheckboxSelectAllSingle": "选择 {resourceNameSingular}",
       "a11yCheckboxDeselectAllMultiple": "取消选择所有 {itemsLength} 个 {resourceNamePlural}",
       "a11yCheckboxSelectAllMultiple": "选择所有 {itemsLength} 个 {resourceNamePlural}",
-      "ariaLiveSingular": "{itemsLength} 个项",
-      "ariaLivePlural": "{itemsLength} 个项",
       "Item": {
         "actionsDropdownLabel": "{accessibilityLabel} 的操作",
         "actionsDropdown": "操作下拉菜单",

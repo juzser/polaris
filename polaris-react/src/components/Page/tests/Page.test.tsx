@@ -4,7 +4,7 @@ import {mountWithApp} from 'tests/utilities';
 
 import type {ActionMenuProps} from '../../ActionMenu';
 import {Badge} from '../../Badge';
-import {Card} from '../../Card';
+import {LegacyCard} from '../../LegacyCard';
 import {Page, PageProps} from '../Page';
 import {Header} from '../components';
 
@@ -33,9 +33,9 @@ describe('<Page />', () => {
 
   describe('children', () => {
     it('renders its children', () => {
-      const card = <Card />;
+      const card = <LegacyCard />;
       const page = mountWithApp(<Page {...mockProps}>{card}</Page>);
-      expect(page).toContainReactComponent(Card);
+      expect(page).toContainReactComponent(LegacyCard);
     });
   });
 
@@ -248,12 +248,46 @@ describe('<Page />', () => {
       expect(page).toContainReactComponent(Header);
     });
 
+    it('renders a <Header /> when defined not as an array', () => {
+      const breadcrumbs = {
+        content: 'Products',
+        onAction: noop,
+      };
+      const page = mountWithApp(
+        <Page {...mockProps} breadcrumbs={breadcrumbs} />,
+      );
+      expect(page).toContainReactComponent(Header);
+    });
+
     it('gets passed into the <Header />', () => {
       const page = mountWithApp(
         <Page {...mockProps} breadcrumbs={breadcrumbs} />,
       );
       expect(page).toContainReactComponent(Header, {
         breadcrumbs,
+      });
+    });
+  });
+
+  describe('backAction', () => {
+    const backAction = {
+      content: 'Products',
+      onAction: noop,
+    };
+
+    it('renders a <Header /> when defined', () => {
+      const page = mountWithApp(
+        <Page {...mockProps} backAction={backAction} />,
+      );
+      expect(page).toContainReactComponent(Header);
+    });
+
+    it('gets passed into the <Header />', () => {
+      const page = mountWithApp(
+        <Page {...mockProps} backAction={backAction} />,
+      );
+      expect(page).toContainReactComponent(Header, {
+        backAction,
       });
     });
   });

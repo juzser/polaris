@@ -5,16 +5,16 @@ import {withPolarisExample} from '../../src/components/PolarisExampleWrapper';
 
 function InlineWithVerticalAlignmentExample() {
   return (
-    <AlphaStack spacing="16">
-      <Inline blockAlign="top">
-        <Placeholder width="106px" label="Top" />
+    <AlphaStack gap="16">
+      <Inline gap="4" blockAlign="start">
+        <Placeholder width="106px" label="Start" />
         <Placeholder width="106px" height="20px" />
         <Placeholder width="106px" height="20px" />
         <Placeholder width="106px" height="20px" />
         <Placeholder width="106px" height="20px" />
         <Placeholder width="106px" height="20px" />
       </Inline>
-      <Inline blockAlign="center">
+      <Inline gap="4" blockAlign="center">
         <Placeholder width="106px" label="Center" />
         <Placeholder width="106px" height="20px" />
         <Placeholder width="106px" height="20px" />
@@ -22,15 +22,15 @@ function InlineWithVerticalAlignmentExample() {
         <Placeholder width="106px" height="20px" />
         <Placeholder width="106px" height="20px" />
       </Inline>
-      <Inline blockAlign="bottom">
-        <Placeholder width="106px" label="Bottom" />
+      <Inline gap="4" blockAlign="end">
+        <Placeholder width="106px" label="End" />
         <Placeholder width="106px" height="20px" />
         <Placeholder width="106px" height="20px" />
         <Placeholder width="106px" height="20px" />
         <Placeholder width="106px" height="20px" />
         <Placeholder width="106px" height="20px" />
       </Inline>
-      <Inline blockAlign="baseline">
+      <Inline gap="4" blockAlign="baseline">
         <Placeholder width="106px" header={true} label="Baseline" />
         <Placeholder width="106px" padding="0" label="text" />
         <Placeholder width="106px" padding="0" label="text" />
@@ -58,7 +58,7 @@ const Placeholder = ({
         width: width,
       }}
     >
-      <Inline align="center" blockAlign="center">
+      <Inline gap="4" align="center" blockAlign="center">
         <div
           style={{
             color: '#FFFFFF',

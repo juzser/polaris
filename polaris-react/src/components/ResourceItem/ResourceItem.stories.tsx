@@ -1,22 +1,31 @@
 import React, {useState} from 'react';
 import type {ComponentMeta} from '@storybook/react';
-import {Avatar, Card, ResourceItem, ResourceList, Text} from '@shopify/polaris';
+import {
+  Avatar,
+  LegacyCard,
+  ResourceItem,
+  ResourceList,
+  ResourceListProps,
+  Text,
+} from '@shopify/polaris';
 
 export default {
   component: ResourceItem,
 } as ComponentMeta<typeof ResourceItem>;
 
 export function Default() {
-  const [selectedItems, setSelectedItems] = useState([]);
+  const [selectedItems, setSelectedItems] = useState<
+    ResourceListProps['selectedItems']
+  >([]);
 
   return (
-    <Card>
+    <LegacyCard>
       <ResourceList
         resourceName={{singular: 'blog post', plural: 'blog posts'}}
         items={[
           {
-            id: 6,
-            url: 'posts/6',
+            id: '6',
+            url: '#',
             title: 'How To Get Value From Wireframes',
             author: 'Jonathan Mangrove',
           },
@@ -44,19 +53,19 @@ export function Default() {
           );
         }}
       />
-    </Card>
+    </LegacyCard>
   );
 }
 
 export function WithMedia() {
   return (
-    <Card>
+    <LegacyCard>
       <ResourceList
         resourceName={{singular: 'customer', plural: 'customers'}}
         items={[
           {
-            id: 145,
-            url: 'customers/145',
+            id: '145',
+            url: '#',
             avatarSource:
               'https://burst.shopifycdn.com/photos/freelance-designer-working-on-laptop.jpg?width=746',
             name: 'Yi So-Yeon',
@@ -91,31 +100,28 @@ export function WithMedia() {
           );
         }}
       />
-    </Card>
+    </LegacyCard>
   );
 }
 
 export function WithShortcutActions() {
   return (
-    <Card>
+    <LegacyCard>
       <ResourceList
         resourceName={{singular: 'customer', plural: 'customers'}}
         items={[
           {
-            id: 145,
-            url: 'customers/145',
+            id: '145',
+            url: '#',
             avatarSource:
               'https://burst.shopifycdn.com/photos/freelance-designer-working-on-laptop.jpg?width=746',
             name: 'Yi So-Yeon',
             location: 'Gwangju, South Korea',
-            latestOrderUrl: 'orders/1456',
+            latestOrderUrl: '#',
           },
         ]}
         renderItem={(item) => {
           const {id, url, avatarSource, name, location, latestOrderUrl} = item;
-          const shortcutActions = latestOrderUrl
-            ? [{content: 'View latest order', url: latestOrderUrl}]
-            : null;
 
           return (
             <ResourceItem
@@ -129,6 +135,61 @@ export function WithShortcutActions() {
                   source={avatarSource}
                 />
               }
+              shortcutActions={[
+                {content: 'View latest order', url: latestOrderUrl},
+              ]}
+              accessibilityLabel={`View details for ${name}`}
+              name={name}
+            >
+              <h3>
+                <Text variant="bodyMd" fontWeight="bold" as="span">
+                  {name}
+                </Text>
+              </h3>
+              <div>{location}</div>
+            </ResourceItem>
+          );
+        }}
+      />
+    </LegacyCard>
+  );
+}
+
+export function WithPersistedShortcutActions() {
+  return (
+    <LegacyCard>
+      <ResourceList
+        resourceName={{singular: 'customer', plural: 'customers'}}
+        items={[
+          {
+            id: '145',
+            url: '#',
+            avatarSource:
+              'https://burst.shopifycdn.com/photos/freelance-designer-working-on-laptop.jpg?width=746',
+            name: 'Yi So-Yeon',
+            location: 'Gwangju, South Korea',
+            latestOrderUrl: '#',
+          },
+        ]}
+        renderItem={(item) => {
+          const {id, url, avatarSource, name, location, latestOrderUrl} = item;
+          const shortcutActions = latestOrderUrl
+            ? [{content: 'View latest order', url: latestOrderUrl}]
+            : undefined;
+
+          return (
+            <ResourceItem
+              id={id}
+              url={url}
+              media={
+                <Avatar
+                  customer
+                  size="medium"
+                  name={name}
+                  source={avatarSource}
+                />
+              }
+              persistActions
               shortcutActions={shortcutActions}
               accessibilityLabel={`View details for ${name}`}
               name={name}
@@ -143,19 +204,19 @@ export function WithShortcutActions() {
           );
         }}
       />
-    </Card>
+    </LegacyCard>
   );
 }
 
 export function WithVerticalAlignment() {
   return (
-    <Card>
+    <LegacyCard>
       <ResourceList
         resourceName={{singular: 'customer', plural: 'customers'}}
         items={[
           {
-            id: 145,
-            url: 'customers/145',
+            id: '145',
+            url: '#',
             avatarSource:
               'https://burst.shopifycdn.com/photos/freelance-designer-working-on-laptop.jpg?width=746',
             name: 'Yi So-Yeon',
@@ -192,6 +253,6 @@ export function WithVerticalAlignment() {
           );
         }}
       />
-    </Card>
+    </LegacyCard>
   );
 }
